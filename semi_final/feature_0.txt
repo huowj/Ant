@@ -1,0 +1,107 @@
+-- province and city
+DROP TABLE IF EXISTS prov_city;
+
+CREATE TABLE IF NOT EXISTS prov_city
+AS
+SELECT event_id 
+      ,CASE WHEN ip_prov = cert_prov THEN 1 
+            ELSE 0 
+        END     AS ip_cert_prov_id 
+      ,CASE WHEN ip_prov = card_bin_prov THEN 1 
+            ELSE 0 
+        END     AS ip_card_bin_prov_id 
+      ,CASE WHEN ip_prov = card_mobile_prov THEN 1 
+            ELSE 0 
+        END     AS ip_card_mobile_prov_id 
+      ,CASE WHEN ip_prov = card_cert_prov THEN 1 
+            ELSE 0 
+        END     AS ip_card_cert_prov_id 
+      ,CASE WHEN ip_prov = province THEN 1 
+            ELSE 0 
+        END     AS ip_province_id 
+      ,CASE WHEN cert_prov = card_bin_prov THEN 1 
+            ELSE 0 
+        END     AS cert_card_bin_prov_id 
+      ,CASE WHEN cert_prov = card_mobile_prov THEN 1 
+            ELSE 0 
+        END     AS cert_card_mobile_prov_id 
+      ,CASE WHEN cert_prov = card_cert_prov THEN 1 
+            ELSE 0 
+        END     AS cert_card_cert_prov_id 
+      ,CASE WHEN cert_prov = province THEN 1 
+            ELSE 0 
+        END     AS cert_province_id 
+      ,CASE WHEN card_bin_prov = card_mobile_prov THEN 1 
+            ELSE 0 
+        END     AS card_bin_card_mobile_prov_id 
+      ,CASE WHEN card_bin_prov = card_cert_prov THEN 1 
+            ELSE 0 
+        END     AS card_bin_card_cert_prov_id 
+      ,CASE WHEN card_bin_prov = province THEN 1 
+            ELSE 0 
+        END     AS card_bin_province_id 
+      ,CASE WHEN card_mobile_prov = card_cert_prov THEN 1 
+            ELSE 0 
+        END     AS card_mobile_card_cert_prov_id 
+      ,CASE WHEN card_mobile_prov = province THEN 1 
+            ELSE 0 
+        END     AS card_mobile_province_id 
+      ,CASE WHEN card_cert_prov = province THEN 1 
+            ELSE 0 
+        END     AS card_cert_province_id 
+      ,CASE WHEN ip_city = cert_city THEN 1 
+            ELSE 0 
+        END     AS ip_cert_city_id 
+      ,CASE WHEN ip_city = card_bin_city THEN 1 
+            ELSE 0 
+        END     AS ip_card_bin_city_id 
+      ,CASE WHEN ip_city = card_mobile_city THEN 1 
+            ELSE 0 
+        END     AS ip_card_mobile_city_id 
+      ,CASE WHEN ip_city = card_cert_city THEN 1 
+            ELSE 0 
+        END     AS ip_card_cert_city_id 
+      ,CASE WHEN ip_city = city THEN 1 
+            ELSE 0 
+        END     AS ip_city_id 
+      ,CASE WHEN cert_city = card_bin_city THEN 1 
+            ELSE 0 
+        END     AS cert_card_bin_city_id 
+      ,CASE WHEN cert_city = card_mobile_city THEN 1 
+            ELSE 0 
+        END     AS cert_card_mobile_city_id 
+      ,CASE WHEN cert_city = card_cert_city THEN 1 
+            ELSE 0 
+        END     AS cert_card_cert_city_id 
+      ,CASE WHEN cert_city = city THEN 1 
+            ELSE 0 
+        END     AS cert_city_id 
+      ,CASE WHEN card_bin_city = card_mobile_city THEN 1 
+            ELSE 0 
+        END     AS card_bin_card_mobile_city_id 
+      ,CASE WHEN card_bin_city = card_cert_city THEN 1 
+            ELSE 0 
+        END     AS card_bin_card_cert_city_id 
+      ,CASE WHEN card_bin_city = city THEN 1 
+            ELSE 0 
+        END     AS card_bin_city_id 
+      ,CASE WHEN card_mobile_city = card_cert_city THEN 1 
+            ELSE 0 
+        END     AS card_mobile_card_cert_city_id 
+      ,CASE WHEN card_mobile_city = city THEN 1 
+            ELSE 0 
+        END     AS card_mobile_city_id 
+      ,CASE WHEN card_cert_city = city THEN 1 
+            ELSE 0 
+        END     AS card_cert_city_id 
+  FROM atec_1000w_ins_data
+;
+
+SELECT * 
+  FROM prov_city
+;
+
+
+
+
+

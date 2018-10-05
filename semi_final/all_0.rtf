@@ -1,0 +1,965 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf600
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset134 PingFangSC-Regular;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww12600\viewh10880\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 -- 2018-07-01 
+\f1 \'d0\'de\'b8\'b4\'b8\'b4\'d4\'d3
+\f0 where
+\f1 \'cc\'f5\'bc\'fe\'c0\'a8\'ba\'c5\'b6\'aa\'ca\'a7\'b5\'c4\'ce\'ca\'cc\'e2
+\f0 \
+-- 2018-07-17 
+\f1 \'d4\'f6\'bc\'d3\'d3\'ef\'b7\'a8\'b4\'ed\'ce\'f3\'b5\'c4\'cc\'e1\'ca\'be
+\f0 \
+DROP table if EXISTS sean_data_digit_0809;\
+create table if not exists sean_data_digit_0809 as \
+select /*+ mapjoin(b),mapjoin(c),mapjoin(d),mapjoin(e),mapjoin(f),mapjoin(g),mapjoin(h)*/\
+a.event_id,a.user_id,\
+DATEPART(to_date(a.gmt_occur,'yyyy-MM-dd HH'),'MM') as gmt_month,\
+DATEPART(to_date(a.gmt_occur,'yyyy-MM-dd HH'),'day') as gmt_day,\
+DATEPART(to_date(a.gmt_occur,'yyyy-MM-dd HH'),'HH') as gmt_hour,\
+weekday(to_date(a.gmt_occur,'yyyy-MM-dd HH')) as gmt_weekday,\
+weekofyear(to_date(a.gmt_occur,'yyyy-MM-dd HH')) as gmt_weekofyear,\
+b.row_num as network,\
+d.row_num as ip_prov,\
+d.row_num as ip_city,\
+f.row_num as cert_prov,\
+g.row_num as cert_city,\
+o.row_num as is_one_people,\
+p.row_num as mobile_oper_platform,\
+q.row_num as operation_channel,\
+r.row_num as pay_scene,\
+amt,\
+y.row_num as version,\
+i1.row_num as info1,\
+i2.row_num as info2,\
+is_fraud,source,\
+sct.row_num as client_ip,\
+sos.row_num as opposing_id,\
+\
+uim.client_ip_count as client_ip_count_d30,\
+uim.network_count as network_count_count_d30,\
+uim.device_sign_count as device_sign_count_d30,\
+uim.ip_prov_count as ip_prov_count_d30,\
+uim.ip_city_count  as ip_city_count_d30,\
+uim.cert_prov_count  as cert_prov_count_d30,\
+uim.cert_city_count  as cert_city_count_d30,\
+uim.card_bin_prov_count  as card_bin_prov_count_d30,\
+uim.card_bin_city_count  as card_bin_city_count_d30,\
+uim.card_mobile_prov_count as card_mobile_prov_count_d30,\
+uim.card_mobile_city_count as card_mobile_city_count_d30, \
+uim.card_cert_prov_count as card_cert_prov_count_d30,\
+uim.card_cert_city_count as card_cert_city_count_d30, \
+uim.mobile_oper_platform_count as mobile_oper_platform_count_d30,\
+uim.operation_channel_count as operation_channel_count_d30, \
+uim.pay_scene_count as pay_scene_count_d30,\
+uim.card_cert_no_count as card_cert_no_count_d30,\
+uim.opposing_id_count as opposing_id_count_d30,\
+uim.income_card_no_count as income_card_no_count_d30, \
+uim.income_card_cert_no_count as income_card_cert_no_count_d30,\
+uim.income_card_mobile_count as income_card_mobile_count_d30, \
+uim.income_card_bank_code_count as income_card_bank_code_count_d30,\
+uim.province_count as province_count_d30, \
+uim.city_count as city_count_d30,\
+uim.is_peer_pay_count as is_peer_pay_count_d30,\
+uim.version_count as version_count_d30,\
+uim.amt_total as amt_total_d30,\
+uim.ordercount as ordercount_d30,\
+\
+z.client_ip_count,z.network_count,z.device_sign_count,z.ip_prov_count,z.ip_city_count,z.cert_prov_count,\
+z.cert_city_count,z.card_bin_prov_count,z.card_bin_city_count,z.card_mobile_prov_count,z.card_mobile_city_count, z.card_cert_prov_count,\
+z.card_cert_city_count, z.mobile_oper_platform_count,z.operation_channel_count, z.pay_scene_count,z.card_cert_no_count,z.opposing_id_count,\
+z.income_card_no_count, z.income_card_cert_no_count,z.income_card_mobile_count, z.income_card_bank_code_count,\
+z.province_count, z.city_count,z.is_peer_pay_count,z.version_count,\
+z.amt_total,z.ordercount,z.ordercount / uim.ordercount as orderrate,\
+z.amt_total / uim.amt_total as amt_total_rate,\
+\
+zd1.client_ip_count as client_ip_count_d1,\
+zd1.network_count as network_count_count_d1,\
+zd1.device_sign_count as device_sign_count_d1,\
+zd1.ip_prov_count as ip_prov_count_d1,\
+zd1.ip_city_count  as ip_city_count_d1,\
+zd1.cert_prov_count  as cert_prov_count_d1,\
+zd1.cert_city_count  as cert_city_count_d1,\
+zd1.card_bin_prov_count  as card_bin_prov_count_d1,\
+zd1.card_bin_city_count  as card_bin_city_count_d1,\
+zd1.card_mobile_prov_count as card_mobile_prov_count_d1,\
+zd1.card_mobile_city_count as card_mobile_city_count_d1, \
+zd1.card_cert_prov_count as card_cert_prov_count_d1,\
+zd1.card_cert_city_count as card_cert_city_count_d1, \
+zd1.mobile_oper_platform_count as mobile_oper_platform_count_d1,\
+zd1.operation_channel_count as operation_channel_count_d1, \
+zd1.pay_scene_count as pay_scene_count_d1,\
+zd1.card_cert_no_count as card_cert_no_count_d1,\
+zd1.opposing_id_count as opposing_id_count_d1,\
+zd1.income_card_no_count as income_card_no_count_d1, \
+zd1.income_card_cert_no_count as income_card_cert_no_count_d1,\
+zd1.income_card_mobile_count as income_card_mobile_count_d1, \
+zd1.income_card_bank_code_count as income_card_bank_code_count_d1,\
+zd1.province_count as province_count_d1, \
+zd1.city_count as city_count_d1,\
+zd1.is_peer_pay_count as is_peer_pay_count_d1,\
+zd1.version_count as version_count_d1,\
+zd1.amt_total as amt_total_d1,\
+zd1.ordercount as ordercount_d1,\
+zd1.ordercount / z.ordercount as orderrate_d1,\
+zd1.amt_total / z.amt_total as amt_total_rate_d1,\
+\
+uih6.client_ip_count as client_ip_count_h6,\
+uih6.network_count as network_count_count_h6,\
+uih6.device_sign_count as device_sign_count_h6,\
+uih6.ip_prov_count as ip_prov_count_h6,\
+uih6.ip_city_count  as ip_city_count_h6,\
+uih6.cert_prov_count  as cert_prov_count_h6,\
+uih6.cert_city_count  as cert_city_count_h6,\
+uih6.card_bin_prov_count  as card_bin_prov_count_h6,\
+uih6.card_bin_city_count as card_bin_city_count_h6,\
+uih6.card_mobile_prov_count as card_mobile_prov_count_h6,\
+uih6.card_mobile_city_count as card_mobile_city_count_h6, \
+uih6.card_cert_prov_count as card_cert_prov_count_h6,\
+uih6.card_cert_city_count as card_cert_city_count_h6, \
+uih6.mobile_oper_platform_count as mobile_oper_platform_count_h6,\
+uih6.operation_channel_count as operation_channel_count_h6, \
+uih6.pay_scene_count as pay_scene_count_h6,\
+uih6.card_cert_no_count as card_cert_no_count_h6,\
+uih6.opposing_id_count as opposing_id_count_h6,\
+uih6.income_card_no_count as income_card_no_count_h6, \
+uih6.income_card_cert_no_count as income_card_cert_no_count_h6,\
+uih6.income_card_mobile_count as income_card_mobile_count_h6, \
+uih6.income_card_bank_code_count as income_card_bank_code_count_h6,\
+uih6.province_count as province_count_h6, \
+uih6.city_count as city_count_h6,\
+uih6.is_peer_pay_count as is_peer_pay_count_h6,\
+uih6.version_count as version_count_h6,\
+uih6.amt_total as amt_total_h6,\
+uih6.ordercount as ordercount_h6,\
+uih6.ordercount / z.ordercount as orderrate_h6,\
+uih6.amt_total / z.amt_total as amt_total_rate_h6,\
+\
+uih.client_ip_count as client_ip_count_h,\
+uih.network_count as network_count_count_h,\
+uih.device_sign_count as device_sign_count_h,\
+uih.ip_prov_count as ip_prov_count_h,\
+uih.ip_city_count  as ip_city_count_h,\
+uih.cert_prov_count  as cert_prov_count_h,\
+uih.cert_city_count  as cert_city_count_h,\
+uih.card_bin_prov_count  as card_bin_prov_count_h,\
+uih.card_bin_city_count as card_bin_city_count_h,\
+uih.card_mobile_prov_count as card_mobile_prov_count_h,\
+uih.card_mobile_city_count as card_mobile_city_count_h, \
+uih.card_cert_prov_count as card_cert_prov_count_h,\
+uih.card_cert_city_count as card_cert_city_count_h, \
+uih.mobile_oper_platform_count as mobile_oper_platform_count_h,\
+uih.operation_channel_count as operation_channel_count_h, \
+uih.pay_scene_count as pay_scene_count_h,\
+uih.card_cert_no_count as card_cert_no_count_h,\
+uih.opposing_id_count as opposing_id_count_h,\
+uih.income_card_no_count as income_card_no_count_h, \
+uih.income_card_cert_no_count as income_card_cert_no_count_h,\
+uih.income_card_mobile_count as income_card_mobile_count_h, \
+uih.income_card_bank_code_count as income_card_bank_code_count_h,\
+uih.province_count as province_count_h, \
+uih.city_count as city_count_h,\
+uih.is_peer_pay_count as is_peer_pay_count_h,\
+uih.version_count as version_count_h,\
+uih.amt_total as amt_total_h,\
+uih.ordercount as ordercount_h,\
+uih.ordercount / z.ordercount as orderrate_h,\
+uih.amt_total / z.amt_total as amt_total_rate_h,\
+\
+case when a.ip_city = a.cert_city then 1 else 0 end as ip_cert_city_equal,\
+case when a.ip_prov = a.cert_prov then 1 else 0 end as ip_cert_prov_equal,\
+gmdh.gmt_sum as gmt_month_day_hour_sum,\
+ogmdh.gmt_sum as opposing_gmt_month_day_hour_sum,\
+dense_rank() OVER (PARTITION BY a.user_id order BY gmdh.gmt_occur) as row_num_month,\
+\
+oim.opposing_client_ip_count as opposing_client_ip_count_d30,\
+oim.opposing_network_count as opposing_network_count_d30,\
+oim.opposing_device_sign_count as opposing_device_sign_count_d30,\
+oim.opposing_ip_prov_count as opposing_ip_prov_count_d30,\
+oim.opposing_ip_city_count as opposing_ip_city_count_d30,\
+oim.opposing_cert_prov_count as opposing_cert_prov_count_d30,\
+oim.opposing_cert_city_count as opposing_cert_city_count_d30,\
+oim.opposing_card_bin_prov_count as opposing_card_bin_prov_count_d30,\
+oim.opposing_card_bin_city_count as opposing_card_bin_city_count_d30,\
+oim.opposing_card_mobile_prov_count as opposing_card_mobile_prov_count_d30,\
+oim.opposing_card_mobile_city_count as opposing_card_mobile_city_count_d30,\
+oim.opposing_card_cert_prov_count as opposing_card_cert_prov_count_d30,\
+oim.opposing_card_cert_city_count as opposing_card_cert_city_count_d30, \
+oim.opposing_mobile_oper_platform_count as opposing_mobile_oper_platform_count_d30,\
+oim.opposing_operation_channel_count as opposing_operation_channel_count_d30, \
+oim.opposing_pay_scene_count as opposing_pay_scene_count_d30,\
+oim.opposing_card_cert_no_count as opposing_card_cert_no_count_d30,\
+oim.opposing_income_card_no_count as opposing_income_card_no_count_d30, \
+oim.opposing_income_card_cert_no_count as opposing_income_card_cert_no_count_d30,\
+oim.opposing_income_card_mobile_count as opposing_income_card_mobile_count_d30, oim.opposing_income_card_bank_code_count as opposing_income_card_bank_code_count_d30,\
+oim.opposing_province_count as opposing_province_count_d30, \
+oim.opposing_city_count as opposing_city_count_d30,\
+oim.opposing_is_peer_pay_count as opposing_is_peer_pay_count_d30,\
+oim.opposing_version_count as opposing_version_count_d30,\
+oim.opposing_amt_total as opposing_amt_total_d30,\
+oim.opposing_user_count as opposing_user_count_d30,\
+oim.ordercount as opposing_ordercount_d30,\
+\
+oi.opposing_client_ip_count,oi.opposing_network_count,oi.opposing_device_sign_count,\
+oi.opposing_ip_prov_count,oi.opposing_ip_city_count,\
+oi.opposing_cert_prov_count,\
+oi.opposing_cert_city_count,oi.opposing_card_bin_prov_count,\
+oi.opposing_card_bin_city_count,oi.opposing_card_mobile_prov_count,\
+oi.opposing_card_mobile_city_count,oi.opposing_card_cert_prov_count,\
+oi.opposing_card_cert_city_count, oi.opposing_mobile_oper_platform_count,\
+oi.opposing_operation_channel_count, oi.opposing_pay_scene_count,\
+oi.opposing_card_cert_no_count,\
+oi.opposing_income_card_no_count, oi.opposing_income_card_cert_no_count,\
+oi.opposing_income_card_mobile_count, oi.opposing_income_card_bank_code_count,\
+oi.opposing_province_count, oi.opposing_city_count,\
+oi.opposing_is_peer_pay_count,oi.opposing_version_count,\
+oi.opposing_amt_total,oi.opposing_user_count,oi.ordercount as opposing_ordercount_d7,\
+oi.ordercount / oim.ordercount as opposing_orderrate_d7,\
+oi.opposing_amt_total / oim.opposing_amt_total as opposing_amt_total_rate_d7,\
+\
+oid1.opposing_client_ip_count as opposing_client_ip_count_d1,\
+oid1.opposing_network_count as opposing_network_count_d1,\
+oid1.opposing_device_sign_count as opposing_device_sign_count_d1,\
+oid1.opposing_ip_prov_count as opposing_ip_prov_count_d1,\
+oid1.opposing_ip_city_count as opposing_ip_city_count_d1,\
+oid1.opposing_cert_prov_count as opposing_cert_prov_count_d1,\
+oid1.opposing_cert_city_count as opposing_cert_city_count_d1,\
+oid1.opposing_card_bin_prov_count as opposing_card_bin_prov_count_d1,\
+oid1.opposing_card_bin_city_count as opposing_card_bin_city_count_d1,\
+oid1.opposing_card_mobile_prov_count as opposing_card_mobile_prov_count_d1,\
+oid1.opposing_card_mobile_city_count as opposing_card_mobile_city_count_d1,\
+oid1.opposing_card_cert_prov_count as opposing_card_cert_prov_count_d1,\
+oid1.opposing_card_cert_city_count as opposing_card_cert_city_count_d1, \
+oid1.opposing_mobile_oper_platform_count as opposing_mobile_oper_platform_count_d1,\
+oid1.opposing_operation_channel_count as opposing_operation_channel_count_d1, \
+oid1.opposing_pay_scene_count as opposing_pay_scene_count_d1,\
+oid1.opposing_card_cert_no_count as opposing_card_cert_no_count_d1,\
+oid1.opposing_income_card_no_count as opposing_income_card_no_count_d1, \
+oid1.opposing_income_card_cert_no_count as opposing_income_card_cert_no_count_d1,\
+oid1.opposing_income_card_mobile_count as opposing_income_card_mobile_count_d1, oid1.opposing_income_card_bank_code_count as opposing_income_card_bank_code_count_d1,\
+oid1.opposing_province_count as opposing_province_count_d1, \
+oid1.opposing_city_count as opposing_city_count_d1,\
+oid1.opposing_is_peer_pay_count as opposing_is_peer_pay_count_d1,\
+oid1.opposing_version_count as opposing_version_count_d1,\
+oid1.opposing_amt_total as opposing_amt_total_d1,\
+oid1.opposing_user_count as opposing_user_count_d1,\
+oid1.ordercount as opposing_ordercount_d1,\
+oid1.ordercount / oi.ordercount as opposing_orderrate_d1,\
+oid1.opposing_amt_total / oi.opposing_amt_total as opposing_amt_total_rate_d1,\
+\
+oih6.opposing_client_ip_count as opposing_client_ip_count_h6,\
+oih6.opposing_network_count as opposing_network_count_h6,\
+oih6.opposing_device_sign_count as opposing_device_sign_count_h6,\
+oih6.opposing_ip_prov_count as opposing_ip_prov_count_h6,\
+oih6.opposing_ip_city_count as opposing_ip_city_count_h6,\
+oih6.opposing_cert_prov_count as opposing_cert_prov_count_h6,\
+oih6.opposing_cert_city_count as opposing_cert_city_count_h6,\
+oih6.opposing_card_bin_prov_count as opposing_card_bin_prov_count_h6,\
+oih6.opposing_card_bin_city_count as opposing_card_bin_city_count_h6,\
+oih6.opposing_card_mobile_prov_count as opposing_card_mobile_prov_count_h6,\
+oih6.opposing_card_mobile_city_count as opposing_card_mobile_city_count_h6,\
+oih6.opposing_card_cert_prov_count as opposing_card_cert_prov_count_h6,\
+oih6.opposing_card_cert_city_count as opposing_card_cert_city_count_h6, \
+oih6.opposing_mobile_oper_platform_count as opposing_mobile_oper_platform_count_h6,\
+oih6.opposing_operation_channel_count as opposing_operation_channel_count_h6, \
+oih6.opposing_pay_scene_count as opposing_pay_scene_count_h6,\
+oih6.opposing_card_cert_no_count as opposing_card_cert_no_count_h6,\
+oih6.opposing_income_card_no_count as opposing_income_card_no_count_h6, \
+oih6.opposing_income_card_cert_no_count as opposing_income_card_cert_no_count_h6,\
+oih6.opposing_income_card_mobile_count as opposing_income_card_mobile_count_h6, oih6.opposing_income_card_bank_code_count as opposing_income_card_bank_code_count_h6,\
+oih6.opposing_province_count as opposing_province_count_h6, \
+oih6.opposing_city_count as opposing_city_count_h6,\
+oih6.opposing_is_peer_pay_count as opposing_is_peer_pay_count_h6,\
+oih6.opposing_version_count as opposing_version_count_h6,\
+oih6.opposing_amt_total as opposing_amt_total_h6,\
+oih6.opposing_user_count as opposing_user_count_h6,\
+oih6.ordercount as opposing_ordercount_h6,\
+oih6.ordercount / oi.ordercount as opposing_orderrate_h6,\
+oih6.opposing_amt_total / oi.opposing_amt_total as opposing_amt_total_rate_h6,\
+\
+oih.opposing_client_ip_count as opposing_client_ip_count_h,\
+oih.opposing_network_count as opposing_network_count_h,\
+oih.opposing_device_sign_count as opposing_device_sign_count_h,\
+oih.opposing_ip_prov_count as opposing_ip_prov_count_h,\
+oih.opposing_ip_city_count as opposing_ip_city_count_h,\
+oih.opposing_cert_prov_count as opposing_cert_prov_count_h,\
+oih.opposing_cert_city_count as opposing_cert_city_count_h,\
+oih.opposing_card_bin_prov_count as opposing_card_bin_prov_count_h,\
+oih.opposing_card_bin_city_count as opposing_card_bin_city_count_h,\
+oih.opposing_card_mobile_prov_count as opposing_card_mobile_prov_count_h,\
+oih.opposing_card_mobile_city_count as opposing_card_mobile_city_count_h,\
+oih.opposing_card_cert_prov_count as opposing_card_cert_prov_count_h,\
+oih.opposing_card_cert_city_count as opposing_card_cert_city_count_h, \
+oih.opposing_mobile_oper_platform_count as opposing_mobile_oper_platform_count_h,\
+oih.opposing_operation_channel_count as opposing_operation_channel_count_h, \
+oih.opposing_pay_scene_count as opposing_pay_scene_count_h,\
+oih.opposing_card_cert_no_count as opposing_card_cert_no_count_h,\
+oih.opposing_income_card_no_count as opposing_income_card_no_count_h, \
+oih.opposing_income_card_cert_no_count as opposing_income_card_cert_no_count_h,\
+oih.opposing_income_card_mobile_count as opposing_income_card_mobile_count_h, \
+oih.opposing_income_card_bank_code_count as opposing_income_card_bank_code_count_h,\
+oih.opposing_province_count as opposing_province_count_h, \
+oih.opposing_city_count as opposing_city_count_h,\
+oih.opposing_is_peer_pay_count as opposing_is_peer_pay_count_h,\
+oih.opposing_version_count as opposing_version_count_h,\
+oih.opposing_amt_total as opposing_amt_total_h,\
+oih.opposing_user_count as opposing_user_count_h,\
+oih.ordercount as opposing_ordercount_h,\
+oih.ordercount / oi.ordercount as opposing_orderrate_h,\
+oih.opposing_amt_total / oi.opposing_amt_total as opposing_amt_total_rate_h,\
+\
+cim.network_count as clientip_network_count_d30,\
+cim.device_sign_count as clientip_device_sign_count_d30,\
+cim.ip_prov_count as clientip_ip_prov_count_d30,\
+cim.ip_city_count as clientip_ip_city_count_d30,\
+cim.cert_prov_count as clientip_cert_prov_count_d30,\
+cim.cert_city_count as clientip_cert_city_count_d30,\
+cim.card_bin_prov_count as clientip_card_bin_prov_count_d30,\
+cim.card_bin_city_count as clientip_card_bin_city_count_d30,\
+cim.card_mobile_prov_count as clientip_card_mobile_prov_count_d30,\
+cim.card_mobile_city_count as clientip_card_mobile_city_count_d30,\
+cim.card_cert_prov_count as clientip_card_cert_prov_count_d30,\
+cim.card_cert_city_count as clientip_card_cert_city_count_d30, \
+cim.mobile_oper_platform_count as clientip_mobile_oper_platform_count_d30,\
+cim.operation_channel_count as clientip_operation_channel_count_d30, \
+cim.pay_scene_count as clientip_pay_scene_count_d30,\
+cim.card_cert_no_count as clientip_card_cert_no_count_d30,\
+cim.opposing_id_count as clientip_opposing_id_count_d30,\
+cim.income_card_no_count as clientip_income_card_no_count_d30, \
+cim.income_card_cert_no_count as clientip_income_card_cert_no_count_d30,\
+cim.income_card_mobile_count as clientip_income_card_mobile_count_d30, \
+cim.income_card_bank_code_count as clientip_income_card_bank_code_count_d30,\
+cim.province_count as clientip_province_count_d30, \
+cim.city_count as clientip_city_count_d30,\
+cim.is_peer_pay_count as clientip_is_peer_pay_count_d30,\
+cim.version_count as clientip_version_count_d30,\
+cim.amt_total as clientip_amt_total_d30,\
+cim.user_id_count as clientip_user_count_d30,\
+\
+cd7.network_count as clientip_network_count_d7,\
+cd7.device_sign_count as clientip_device_sign_count_d7,\
+cd7.ip_prov_count as clientip_ip_prov_count_d7,\
+cd7.ip_city_count as clientip_ip_city_count_d7,\
+cd7.cert_prov_count as clientip_cert_prov_count_d7,\
+cd7.cert_city_count as clientip_cert_city_count_d7,\
+cd7.card_bin_prov_count as clientip_card_bin_prov_count_d7,\
+cd7.card_bin_city_count as clientip_card_bin_city_count_d7,\
+cd7.card_mobile_prov_count as clientip_card_mobile_prov_count_d7,\
+cd7.card_mobile_city_count as clientip_card_mobile_city_count_d7,\
+cd7.card_cert_prov_count as clientip_card_cert_prov_count_d7,\
+cd7.card_cert_city_count as clientip_card_cert_city_count_d7, \
+cd7.mobile_oper_platform_count as clientip_mobile_oper_platform_count_d7,\
+cd7.operation_channel_count as clientip_operation_channel_count_d7, \
+cd7.pay_scene_count as clientip_pay_scene_count_d7,\
+cd7.card_cert_no_count as clientip_card_cert_no_count_d7,\
+cd7.opposing_id_count as clientip_opposing_id_count_d7,\
+cd7.income_card_no_count as clientip_income_card_no_count_d7, \
+cd7.income_card_cert_no_count as clientip_income_card_cert_no_count_d7,\
+cd7.income_card_mobile_count as clientip_income_card_mobile_count_d7, \
+cd7.income_card_bank_code_count as clientip_income_card_bank_code_count_d7,\
+cd7.province_count as clientip_province_count_d7, \
+cd7.city_count as clientip_city_count_d7,\
+cd7.is_peer_pay_count as clientip_is_peer_pay_count_d7,\
+cd7.version_count as clientip_version_count_d7,\
+cd7.amt_total as clientip_amt_total_d7,\
+cd7.user_id_count as clientip_user_count_d7,\
+cd7.ordercount as clientip_ordercount_d7, \
+cd7.ordercount /cim.ordercount as clientip_orderrate_d7,\
+cd7.amt_total / cim.amt_total as clientip_amt_total_rate_d7,\
+\
+cd1.network_count as clientip_network_count_d1,\
+cd1.device_sign_count as clientip_device_sign_count_d1,\
+cd1.ip_prov_count as clientip_ip_prov_count_d1,\
+cd1.ip_city_count as clientip_ip_city_count_d1,\
+cd1.cert_prov_count as clientip_cert_prov_count_d1,\
+cd1.cert_city_count as clientip_cert_city_count_d1,\
+cd1.card_bin_prov_count as clientip_card_bin_prov_count_d1,\
+cd1.card_bin_city_count as clientip_card_bin_city_count_d1,\
+cd1.card_mobile_prov_count as clientip_card_mobile_prov_count_d1,\
+cd1.card_mobile_city_count as clientip_card_mobile_city_count_d1,\
+cd1.card_cert_prov_count as clientip_card_cert_prov_count_d1,\
+cd1.card_cert_city_count as clientip_card_cert_city_count_d1, \
+cd1.mobile_oper_platform_count as clientip_mobile_oper_platform_count_d1,\
+cd1.operation_channel_count as clientip_operation_channel_count_d1, \
+cd1.pay_scene_count as clientip_pay_scene_count_d1,\
+cd1.card_cert_no_count as clientip_card_cert_no_count_d1,\
+cd1.opposing_id_count as clientip_opposing_id_count_d1,\
+cd1.income_card_no_count as clientip_income_card_no_count_d1, \
+cd1.income_card_cert_no_count as clientip_income_card_cert_no_count_d1,\
+cd1.income_card_mobile_count as clientip_income_card_mobile_count_d1, \
+cd1.income_card_bank_code_count as clientip_income_card_bank_code_count_d1,\
+cd1.province_count as clientip_province_count_d1, \
+cd1.city_count as clientip_city_count_d1,\
+cd1.is_peer_pay_count as clientip_is_peer_pay_count_d1,\
+cd1.version_count as clientip_version_count_d1,\
+cd1.amt_total as clientip_amt_total_d1,\
+cd1.user_id_count as clientip_user_count_d1,\
+cd1.ordercount / cd7.ordercount as clientip_orderrate_d1,\
+cd1.amt_total / cd7.amt_total as clientip_amt_total_rate_d1,\
+\
+ch6.network_count as clientip_network_count_h6,\
+ch6.device_sign_count as clientip_device_sign_count_h6,\
+ch6.ip_prov_count as clientip_ip_prov_count_h6,\
+ch6.ip_city_count as clientip_ip_city_count_h6,\
+ch6.cert_prov_count as clientip_cert_prov_count_h6,\
+ch6.cert_city_count as clientip_cert_city_count_h6,\
+ch6.card_bin_prov_count as clientip_card_bin_prov_count_h6,\
+ch6.card_bin_city_count as clientip_card_bin_city_count_h6,\
+ch6.card_mobile_prov_count as clientip_card_mobile_prov_count_h6,\
+ch6.card_mobile_city_count as clientip_card_mobile_city_count_h6,\
+ch6.card_cert_prov_count as clientip_card_cert_prov_count_h6,\
+ch6.card_cert_city_count as clientip_card_cert_city_count_h6, \
+ch6.mobile_oper_platform_count as clientip_mobile_oper_platform_count_h6,\
+ch6.operation_channel_count as clientip_operation_channel_count_h6, \
+ch6.pay_scene_count as clientip_pay_scene_count_h6,\
+ch6.card_cert_no_count as clientip_card_cert_no_count_h6,\
+ch6.opposing_id_count as clientip_opposing_id_count_h6,\
+ch6.income_card_no_count as clientip_income_card_no_count_h6, \
+ch6.income_card_cert_no_count as clientip_income_card_cert_no_count_h6,\
+ch6.income_card_mobile_count as clientip_income_card_mobile_count_h6, \
+ch6.income_card_bank_code_count as clientip_income_card_bank_code_count_h6,\
+ch6.province_count as clientip_province_count_h6, \
+ch6.city_count as clientip_city_count_h6,\
+ch6.is_peer_pay_count as clientip_is_peer_pay_count_h6,\
+ch6.version_count as clientip_version_count_h6,\
+ch6.amt_total as clientip_amt_total_h6,\
+ch6.user_id_count as clientip_user_count_h6,\
+ch6.ordercount / cd7.ordercount as clientip_orderrate_h6,\
+ch6.amt_total / cd7.amt_total as clientip_amt_total_rate_h6,\
+\
+ch1.network_count as clientip_network_count_h1,\
+ch1.device_sign_count as clientip_device_sign_count_h1,\
+ch1.ip_prov_count as clientip_ip_prov_count_h1,\
+ch1.ip_city_count as clientip_ip_city_count_h1,\
+ch1.cert_prov_count as clientip_cert_prov_count_h1,\
+ch1.cert_city_count as clientip_cert_city_count_h1,\
+ch1.card_bin_prov_count as clientip_card_bin_prov_count_h1,\
+ch1.card_bin_city_count as clientip_card_bin_city_count_h1,\
+ch1.card_mobile_prov_count as clientip_card_mobile_prov_count_h1,\
+ch1.card_mobile_city_count as clientip_card_mobile_city_count_h1,\
+ch1.card_cert_prov_count as clientip_card_cert_prov_count_h1,\
+ch1.card_cert_city_count as clientip_card_cert_city_count_h1, \
+ch1.mobile_oper_platform_count as clientip_mobile_oper_platform_count_h1,\
+ch1.operation_channel_count as clientip_operation_channel_count_h1, \
+ch1.pay_scene_count as clientip_pay_scene_count_h1,\
+ch1.card_cert_no_count as clientip_card_cert_no_count_h1,\
+ch1.opposing_id_count as clientip_opposing_id_count_h1,\
+ch1.income_card_no_count as clientip_income_card_no_count_h1, \
+ch1.income_card_cert_no_count as clientip_income_card_cert_no_count_h1,\
+ch1.income_card_mobile_count as clientip_income_card_mobile_count_h1, \
+ch1.income_card_bank_code_count as clientip_income_card_bank_code_count_h1,\
+ch1.province_count as clientip_province_count_h1, \
+ch1.city_count as clientip_city_count_h1,\
+ch1.is_peer_pay_count as clientip_is_peer_pay_count_h1,\
+ch1.version_count as clientip_version_count_h1,ch1.amt_total as clientip_amt_total_h1,\
+ch1.user_id_count as clientip_user_count_h1,\
+ch1.ordercount / cd7.ordercount as clientip_orderrate_h,\
+ch1.amt_total / cd7.amt_total as clientip_amt_total_rate_h,\
+\
+dsm.network_count as devicesign_network_count_d30,\
+dsm.client_ip_count as devicesign_client_ip_count_d30,\
+dsm.ip_prov_count as devicesign_ip_prov_count_d30,\
+dsm.ip_city_count as devicesign_ip_city_count_d30,\
+dsm.cert_prov_count as devicesign_cert_prov_count_d30,\
+dsm.cert_city_count as devicesign_cert_city_count_d30,\
+dsm.card_bin_prov_count as devicesign_card_bin_prov_count_d30,\
+dsm.card_bin_city_count as devicesign_card_bin_city_count_d30,\
+dsm.card_mobile_prov_count as devicesign_card_mobile_prov_count_d30,\
+dsm.card_mobile_city_count as devicesign_card_mobile_city_count_d30,\
+dsm.card_cert_prov_count as devicesign_card_cert_prov_count_d30,\
+dsm.card_cert_city_count as devicesign_card_cert_city_count_d30, \
+dsm.mobile_oper_platform_count as devicesign_mobile_oper_platform_count_d30,\
+dsm.operation_channel_count as devicesign_operation_channel_count_d30, \
+dsm.pay_scene_count as devicesign_pay_scene_count_d30,\
+dsm.card_cert_no_count as devicesign_card_cert_no_count_d30,\
+dsm.opposing_id_count as devicesign_opposing_id_count_d30,\
+dsm.income_card_no_count as devicesign_income_card_no_count_d30, \
+dsm.income_card_cert_no_count as devicesign_income_card_cert_no_count_d30,\
+dsm.income_card_mobile_count as devicesign_income_card_mobile_count_d30, \
+dsm.income_card_bank_code_count as devicesign_income_card_bank_code_count_d30,\
+dsm.province_count as devicesign_province_count_d30, \
+dsm.city_count as devicesign_city_count_d30,\
+dsm.is_peer_pay_count as devicesign_is_peer_pay_count_d30,\
+dsm.version_count as devicesign_version_count_d30,\
+dsm.amt_total as devicesign_amt_total_d30,\
+dsm.user_count as devicesign_user_count_d30,\
+\
+dsd7.network_count as devicesign_network_count_d7,\
+dsd7.client_ip_count as devicesign_client_ip_count_d7,\
+dsd7.ip_prov_count as devicesign_ip_prov_count_d7,\
+dsd7.ip_city_count as devicesign_ip_city_count_d7,\
+dsd7.cert_prov_count as devicesign_cert_prov_count_d7,\
+dsd7.cert_city_count as devicesign_cert_city_count_d7,\
+dsd7.card_bin_prov_count as devicesign_card_bin_prov_count_d7,\
+dsd7.card_bin_city_count as devicesign_card_bin_city_count_d7,\
+dsd7.card_mobile_prov_count as devicesign_card_mobile_prov_count_d7,\
+dsd7.card_mobile_city_count as devicesign_card_mobile_city_count_d7,\
+dsd7.card_cert_prov_count as devicesign_card_cert_prov_count_d7,\
+dsd7.card_cert_city_count as devicesign_card_cert_city_count_d7, \
+dsd7.mobile_oper_platform_count as devicesign_mobile_oper_platform_count_d7,\
+dsd7.operation_channel_count as devicesign_operation_channel_count_d7, \
+dsd7.pay_scene_count as devicesign_pay_scene_count_d7,\
+dsd7.card_cert_no_count as devicesign_card_cert_no_count_d7,\
+dsd7.opposing_id_count as devicesign_opposing_id_count_d7,\
+dsd7.income_card_no_count as devicesign_income_card_no_count_d7, \
+dsd7.income_card_cert_no_count as devicesign_income_card_cert_no_count_d7,\
+dsd7.income_card_mobile_count as devicesign_income_card_mobile_count_d7, \
+dsd7.income_card_bank_code_count as devicesign_income_card_bank_code_count_d7,\
+dsd7.province_count as devicesign_province_count_d7, \
+dsd7.city_count as devicesign_city_count_d7,\
+dsd7.is_peer_pay_count as devicesign_is_peer_pay_count_d7,\
+dsd7.version_count as devicesign_version_count_d7,\
+dsd7.amt_total as devicesign_amt_total_d7,\
+dsd7.user_count as devicesign_user_count_d7,\
+dsd7.ordercount as devicesign_ordercount_d7,\
+dsd7.ordercount / dsm.ordercount as devicesign_orderrate_d7,\
+dsd7.amt_total / dsm.amt_total as devicesign_amt_total_rate_d7,\
+\
+\
+dsd1.network_count as devicesign_network_count_d1,\
+dsd1.client_ip_count as devicesign_client_ip_count_d1,\
+dsd1.ip_prov_count as devicesign_ip_prov_count_d1,\
+dsd1.ip_city_count as devicesign_ip_city_count_d1,\
+dsd1.cert_prov_count as devicesign_cert_prov_count_d1,\
+dsd1.cert_city_count as devicesign_cert_city_count_d1,\
+dsd1.card_bin_prov_count as devicesign_card_bin_prov_count_d1,\
+dsd1.card_bin_city_count as devicesign_card_bin_city_count_d1,\
+dsd1.card_mobile_prov_count as devicesign_card_mobile_prov_count_d1,\
+dsd1.card_mobile_city_count as devicesign_card_mobile_city_count_d1,\
+dsd1.card_cert_prov_count as devicesign_card_cert_prov_count_d1,\
+dsd1.card_cert_city_count as devicesign_card_cert_city_count_d1, \
+dsd1.mobile_oper_platform_count as devicesign_mobile_oper_platform_count_d1,\
+dsd1.operation_channel_count as devicesign_operation_channel_count_d1, \
+dsd1.pay_scene_count as devicesign_pay_scene_count_d1,\
+dsd1.card_cert_no_count as devicesign_card_cert_no_count_d1,\
+dsd1.opposing_id_count as devicesign_opposing_id_count_d1,\
+dsd1.income_card_no_count as devicesign_income_card_no_count_d1, \
+dsd1.income_card_cert_no_count as devicesign_income_card_cert_no_count_d1,\
+dsd1.income_card_mobile_count as devicesign_income_card_mobile_count_d1, \
+dsd1.income_card_bank_code_count as devicesign_income_card_bank_code_count_d1,\
+dsd1.province_count as devicesign_province_count_d1, \
+dsd1.city_count as devicesign_city_count_d1,\
+dsd1.is_peer_pay_count as devicesign_is_peer_pay_count_d1,\
+dsd1.version_count as devicesign_version_count_d1,\
+dsd1.amt_total as devicesign_amt_total_d1,\
+dsd1.user_count as devicesign_user_count_d1,\
+dsd1.ordercount / dsd7.ordercount as devicesign_orderrate_d1,\
+dsd1.amt_total / dsd7.amt_total as devicesign_amt_total_rate_d1,\
+\
+dsh6.network_count as devicesign_network_count_h6,\
+dsh6.client_ip_count as devicesign_client_ip_count_h6,\
+dsh6.ip_prov_count as devicesign_ip_prov_count_h6,\
+dsh6.ip_city_count as devicesign_ip_city_count_h6,\
+dsh6.cert_prov_count as devicesign_cert_prov_count_h6,\
+dsh6.cert_city_count as devicesign_cert_city_count_h6,\
+dsh6.card_bin_prov_count as devicesign_card_bin_prov_count_h6,\
+dsh6.card_bin_city_count as devicesign_card_bin_city_count_h6,\
+dsh6.card_mobile_prov_count as devicesign_card_mobile_prov_count_h6,\
+dsh6.card_mobile_city_count as devicesign_card_mobile_city_count_h6,\
+dsh6.card_cert_prov_count as devicesign_card_cert_prov_count_h6,\
+dsh6.card_cert_city_count as devicesign_card_cert_city_count_h6, \
+dsh6.mobile_oper_platform_count as devicesign_mobile_oper_platform_count_h6,\
+dsh6.operation_channel_count as devicesign_operation_channel_count_h6, \
+dsh6.pay_scene_count as devicesign_pay_scene_count_h6,\
+dsh6.card_cert_no_count as devicesign_card_cert_no_count_h6,\
+dsh6.opposing_id_count as devicesign_opposing_id_count_h6,\
+dsh6.income_card_no_count as devicesign_income_card_no_count_h6, \
+dsh6.income_card_cert_no_count as devicesign_income_card_cert_no_count_h6,\
+dsh6.income_card_mobile_count as devicesign_income_card_mobile_count_h6, \
+dsh6.income_card_bank_code_count as devicesign_income_card_bank_code_count_h6,\
+dsh6.province_count as devicesign_province_count_h6, \
+dsh6.city_count as devicesign_city_count_h6,\
+dsh6.is_peer_pay_count as devicesign_is_peer_pay_count_h6,\
+dsh6.version_count as devicesignp_version_count_h6,\
+dsh6.amt_total as devicesign_amt_total_h6,\
+dsh6.user_count as devicesign_user_count_h6,\
+dsh6.ordercount / dsd7.ordercount as devicesign_orderrate_h6,\
+dsh6.amt_total / dsd7.amt_total as devicesign_amt_total_rate_h6,\
+\
+dsh.network_count as devicesign_network_count_h1,\
+dsh.client_ip_count as devicesign_client_ip_count_h1,\
+dsh.ip_prov_count as devicesign_ip_prov_count_h1,\
+dsh.ip_city_count as devicesign_ip_city_count_h1,\
+dsh.cert_prov_count as devicesign_cert_prov_count_h1,\
+dsh.cert_city_count as devicesign_cert_city_count_h1,\
+dsh.card_bin_prov_count as devicesign_card_bin_prov_count_h1,\
+dsh.card_bin_city_count as devicesign_card_bin_city_count_h1,\
+dsh.card_mobile_prov_count as devicesign_card_mobile_prov_count_h1,\
+dsh.card_mobile_city_count as devicesign_card_mobile_city_count_h1,\
+dsh.card_cert_prov_count as devicesign_card_cert_prov_count_h1,\
+dsh.card_cert_city_count as devicesign_card_cert_city_count_h1, \
+dsh.mobile_oper_platform_count as devicesign_mobile_oper_platform_count_h1,\
+dsh.operation_channel_count as devicesign_operation_channel_count_h1, \
+dsh.pay_scene_count as devicesign_pay_scene_count_h1,\
+dsh.card_cert_no_count as devicesign_card_cert_no_count_h1,\
+dsh.opposing_id_count as devicesign_opposing_id_count_h1,\
+dsh.income_card_no_count as devicesign_income_card_no_count_h1, \
+dsh.income_card_cert_no_count as devicesign_income_card_cert_no_count_h1,\
+dsh.income_card_mobile_count as devicesign_income_card_mobile_count_h1, \
+dsh.income_card_bank_code_count as devicesign_income_card_bank_code_count_h1,\
+dsh.province_count as devicesign_province_count_h1, \
+dsh.city_count as devicesign_city_count_h1,\
+dsh.is_peer_pay_count as devicesign_is_peer_pay_count_h1,\
+dsh.version_count as devicesign_version_count_h1,\
+dsh.amt_total as devicesign_amt_total_h1,\
+dsh.user_count as devicesign_user_count_h1,\
+dsh.ordercount / dsd7.ordercount as devicesign_orderrate_h1,\
+dsh.amt_total / dsd7.amt_total as devicesign_amt_total_rate_h1,\
+\
+uotc.order_diff / uota.orderdiff as user_order_diff,ootc.order_diff / oota.orderdiff as opposing_order_diff,\
+\
+cotc.order_diff/ cota.orderdiff as clientip_order_diff, dotc.order_diff / dota.orderdiff as devicesign_order_diff,\
+\
+daydiff_last,\
+hourdiff_last,\
+counts_last,\
+client_ip_same_last,\
+network_same_last,\
+device_sign_same_last,\
+info_1_same_last,\
+info_2_same_last,\
+ip_prov_same_last,\
+ip_city_same_last,\
+card_bin_prov_same_last,\
+card_bin_city_same_last,\
+card_mobile_prov_same_last,\
+card_mobile_city_same_last,\
+card_cert_prov_same_last,\
+card_cert_city_same_last,\
+is_one_people_same_last,\
+mobile_oper_platform_same_last,\
+operation_channel_same_last,\
+pay_scene_same_last,\
+amt_same_last,\
+card_cert_no_same_last,\
+opposing_id_same_last,\
+income_card_cert_no_same_last,\
+income_card_mobile_last,\
+income_card_bank_code_same_last,\
+province_same_last,\
+city_same_last,\
+opposing_daydiff_last,opposing_hourdiff_last,\
+opposing_counts_last,\
+opposing_client_ip_same_last,\
+opposing_network_same_last,\
+opposing_device_sign_same_last,\
+opposing_opposing_info_1_same_last,\
+opposing_info_2_same_last,\
+opposing_ip_prov_same_last,\
+opposing_ip_city_same_last,\
+opposing_card_bin_prov_same_last,\
+opposing_card_bin_city_same_last,\
+opposing_card_mobile_prov_same_last,\
+opposing_card_mobile_city_same_last,\
+opposing_card_cert_prov_same_last,\
+opposing_card_cert_city_same_last,\
+opposing_is_one_people_same_last,\
+opposing_mobile_oper_platform_same_last,\
+opposing_operation_channel_same_last,\
+opposing_pay_scene_same_last,\
+opposing_amt_same_last,\
+opposing_card_cert_no_same_last,\
+opposing_opposing_id_same_last,\
+opposing_income_card_cert_no_same_last,\
+opposing_income_card_mobile_last,\
+opposing_income_card_bank_code_same_last,\
+opposing_province_same_last,\
+opposing_city_same_last,\
+\
+case when a.card_bin_prov is null then 0 else 1 end as card_bin_prov,\
+case when a.card_bin_city is null then 0 else 1 end as card_bin_city,\
+case when a.card_mobile_prov is null then 0 else 1 end as card_mobile_prov,\
+case when a.card_mobile_city is null then 0 else 1 end as card_mobile_city,\
+case when a.card_cert_prov is null then 0 else 1 end as card_cert_prov,\
+case when a.card_cert_city is null then 0 else 1 end as card_cert_city,\
+case when a.income_card_no is null then 0 else 1 end as income_card_no,\
+case when a.income_card_cert_no is null then 0 else 1 end as income_card_cert_no,\
+case when a.income_card_mobile is null then 0 else 1 end as income_card_mobile,\
+case when a.income_card_bank_code is null then 0 else 1 end as income_card_bank_code,\
+case when a.province is null then 0 else 1 end as province,\
+case when a.city is null then 0 else 1 end as city,\
+case when a.is_peer_pay is null then 0 else 1 end as is_peer_pay,\
+case when a.card_cert_no is null then 0 else 1 end as card_cert_no,\
+\
+id7.network_count as ipdevice_network_count_d7,\
+id7.ip_prov_count as ipdevice_ip_prov_count_d7,\
+id7.ip_city_count as ipdevice_ip_city_count_d7,\
+id7.cert_prov_count as ipdevice_cert_prov_count_d7,\
+id7.cert_city_count as ipdevice_cert_city_count_d7,\
+id7.card_bin_prov_count as ipdevice_card_bin_prov_count_d7,\
+id7.card_bin_city_count as ipdevice_card_bin_city_count_d7,\
+id7.card_mobile_prov_count as ipdevice_card_mobile_prov_count_d7,\
+id7.card_mobile_city_count as ipdevice_card_mobile_city_count_d7,\
+id7.card_cert_prov_count as ipdevice_card_cert_prov_count_d7,\
+id7.card_cert_city_count as ipdevice_card_cert_city_count_d7, \
+id7.mobile_oper_platform_count as ipdevice_mobile_oper_platform_count_d7,\
+id7.operation_channel_count as ipdevice_operation_channel_count_d7, \
+id7.pay_scene_count as ipdevice_pay_scene_count_d7,\
+id7.card_cert_no_count as ipdevice_card_cert_no_count_d7,\
+id7.opposing_id_count as ipdevice_opposing_id_count_d7,\
+id7.income_card_no_count as ipdevice_income_card_no_count_d7, \
+id7.income_card_cert_no_count as ipdevice_income_card_cert_no_count_d7,\
+id7.income_card_mobile_count as ipdevice_income_card_mobile_count_d7, \
+id7.income_card_bank_code_count as ipdevice_income_card_bank_code_count_d7,\
+id7.province_count as ipdevice_province_count_d7, \
+id7.city_count as ipdevice_city_count_d7,\
+id7.is_peer_pay_count as ipdevice_is_peer_pay_count_d7,\
+id7.version_count as ipdevice_version_count_d7,\
+id7.amt_total as ipdevice_amt_total_d7,\
+id7.user_id_count as ipdevice_user_count_d7,\
+id7.ordercount as ipdevice_ordercount_d7,\
+\
+id1.network_count as ipdevice_network_count_d1,\
+id1.ip_prov_count as ipdevice_ip_prov_count_d1,\
+id1.ip_city_count as ipdevice_ip_city_count_d1,\
+id1.cert_prov_count as ipdevice_cert_prov_count_d1,\
+id1.cert_city_count as ipdevice_cert_city_count_d1,\
+id1.card_bin_prov_count as ipdevice_card_bin_prov_count_d1,\
+id1.card_bin_city_count as ipdevice_card_bin_city_count_d1,\
+id1.card_mobile_prov_count as ipdevice_card_mobile_prov_count_d1,\
+id1.card_mobile_city_count as ipdevice_card_mobile_city_count_d1,\
+id1.card_cert_prov_count as ipdevice_card_cert_prov_count_d1,\
+id1.card_cert_city_count as ipdevice_card_cert_city_count_d1, \
+id1.mobile_oper_platform_count as ipdevice_mobile_oper_platform_count_d1,\
+id1.operation_channel_count as ipdevice_operation_channel_count_d1, \
+id1.pay_scene_count as ipdevice_pay_scene_count_d1,\
+id1.card_cert_no_count as ipdevice_card_cert_no_count_d1,\
+id1.opposing_id_count as ipdevice_opposing_id_count_d1,\
+id1.income_card_no_count as ipdevice_income_card_no_count_d1, \
+id1.income_card_cert_no_count as ipdevice_income_card_cert_no_count_d1,\
+id1.income_card_mobile_count as ipdevice_income_card_mobile_count_d1, \
+id1.income_card_bank_code_count as ipdevice_income_card_bank_code_count_d1,\
+id1.province_count as ipdevice_province_count_d1, \
+id1.city_count as ipdevice_city_count_d1,\
+id1.is_peer_pay_count as ipdevice_is_peer_pay_count_d1,\
+id1.version_count as ipdevice_version_count_d1,\
+id1.amt_total as ipdevice_amt_total_d1,\
+id1.user_id_count as ipdevice_user_count_d1,\
+id1.ordercount / id7.ordercount as ipdevice_orderrate_d1,\
+id1.amt_total / id7.amt_total as ipdevice_amt_total_rate_d1,\
+\
+idh6.network_count as ipdevice_network_count_h6,\
+idh6.ip_prov_count as ipdevice_ip_prov_count_h6,\
+idh6.ip_city_count as ipdevice_ip_city_count_h6,\
+idh6.cert_prov_count as ipdevice_cert_prov_count_h6,\
+idh6.cert_city_count as ipdevice_cert_city_count_h6,\
+idh6.card_bin_prov_count as ipdevice_card_bin_prov_count_h6,\
+idh6.card_bin_city_count as ipdevice_card_bin_city_count_h6,\
+idh6.card_mobile_prov_count as ipdevice_card_mobile_prov_count_h6,\
+idh6.card_mobile_city_count as ipdevice_card_mobile_city_count_h6,\
+idh6.card_cert_prov_count as ipdevice_card_cert_prov_count_h6,\
+idh6.card_cert_city_count as ipdevice_card_cert_city_count_h6, \
+idh6.mobile_oper_platform_count as ipdevice_mobile_oper_platform_count_h6,\
+idh6.operation_channel_count as ipdevice_operation_channel_count_h6, \
+idh6.pay_scene_count as ipdevice_pay_scene_count_h6,\
+idh6.card_cert_no_count as ipdevice_card_cert_no_count_h6,\
+idh6.opposing_id_count as ipdevice_opposing_id_count_h6,\
+idh6.income_card_no_count as ipdevice_income_card_no_count_h6, \
+idh6.income_card_cert_no_count as ipdevice_income_card_cert_no_count_h6,\
+idh6.income_card_mobile_count as ipdevice_income_card_mobile_count_h6, \
+idh6.income_card_bank_code_count as ipdevice_income_card_bank_code_count_h6,\
+idh6.province_count as ipdevice_province_count_h6, \
+idh6.city_count as ipdevice_city_count_h6,\
+idh6.is_peer_pay_count as ipdevice_is_peer_pay_count_h6,\
+idh6.version_count as ipdevice_version_count_h6,\
+idh6.amt_total as ipdevice_amt_total_h6,\
+idh6.user_id_count as ipdevice_user_count_h6,\
+idh6.ordercount / id7.ordercount as ipdevice_orderrate_h6,\
+idh6.amt_total / id7.amt_total as ipdevice_amt_total_rate_h6,\
+\
+idh.network_count as ipdevice_network_count_h1,\
+idh.ip_prov_count as ipdevice_ip_prov_count_h1,\
+idh.ip_city_count as ipdevice_ip_city_count_h1,\
+idh.cert_prov_count as ipdevice_cert_prov_count_h1,\
+idh.cert_city_count as ipdevice_cert_city_count_h1,\
+idh.card_bin_prov_count as ipdevice_card_bin_prov_count_h1,\
+idh.card_bin_city_count as ipdevice_card_bin_city_count_h1,\
+idh.card_mobile_prov_count as ipdevice_card_mobile_prov_count_h1,\
+idh.card_mobile_city_count as ipdevice_card_mobile_city_count_h1,\
+idh.card_cert_prov_count as ipdevice_card_cert_prov_count_h1,\
+idh.card_cert_city_count as ipdevice_card_cert_city_count_h1, \
+idh.mobile_oper_platform_count as ipdevice_mobile_oper_platform_count_h1,\
+idh.operation_channel_count as ipdevice_operation_channel_count_h1, \
+idh.pay_scene_count as ipdevice_pay_scene_count_h1,\
+idh.card_cert_no_count as ipdevice_card_cert_no_count_h1,\
+idh.opposing_id_count as ipdevice_opposing_id_count_h1,\
+idh.income_card_no_count as ipdevice_income_card_no_count_h1, \
+idh.income_card_cert_no_count as ipdevice_income_card_cert_no_count_h1,\
+idh.income_card_mobile_count as ipdevice_income_card_mobile_count_h1, \
+idh.income_card_bank_code_count as ipdevice_income_card_bank_code_count_h1,\
+idh.province_count as ipdevice_province_count_h1, \
+idh.city_count as ipdevice_city_count_h1,\
+idh.is_peer_pay_count as ipdevice_is_peer_pay_count_h1,\
+idh.version_count as ipdevice_version_count_h1,\
+idh.amt_total as ipdevice_amt_total_h1,\
+idh.user_id_count as ipdevice_user_count_h1,\
+idh.ordercount / id7.ordercount as ipdevice_orderrate_h1,\
+idh.amt_total / id7.amt_total as ipdevice_amt_total_rate_h1\
+\
+\
+from sean_data a\
+\
+left join sean_network b on a.network = b.network\
+\
+left join sean_province c on a.province = c.province\
+\
+left join sean_ip_prov d on a.ip_prov = d.ip_prov\
+\
+left join sean_ip_city e on a.ip_city = e.ip_city\
+\
+left join sean_cert_prov f on a.cert_prov = f.cert_prov\
+\
+left join sean_cert_city g on a.cert_city = g.cert_city\
+\
+left join sean_card_bin_prov h on a.card_bin_prov = h.card_bin_prov\
+\
+left join sean_card_bin_city j on a.card_bin_city = j.card_bin_city\
+\
+left join sean_card_mobile_prov k on a.card_mobile_prov = k.card_mobile_prov\
+\
+left join sean_card_mobile_city l on a.card_mobile_city = l.card_mobile_city\
+\
+left join sean_card_cert_prov m on a.card_cert_prov = m.card_cert_prov\
+\
+left join sean_card_cert_city n on a.card_cert_city = n.card_cert_city\
+\
+left join sean_is_one_people o on a.is_one_people = o.is_one_people\
+\
+left join sean_mobile_oper_platform p on a.mobile_oper_platform = p.mobile_oper_platform\
+\
+left join sean_operation_channel q on a.operation_channel = q.operation_channel\
+\
+left join sean_pay_scene r on a.pay_scene = r.pay_scene\
+\
+left join sean_income_card_no s on a.income_card_no = s.income_card_no\
+\
+left join sean_income_card_cert_no t on a.income_card_cert_no = t.income_card_cert_no\
+\
+left join sean_income_card_mobile u on a.income_card_mobile = u.income_card_mobile\
+\
+left join sean_income_card_bank_code v on a.income_card_bank_code = v.income_card_bank_code\
+\
+left join sean_city w on a.city = w.city\
+\
+left join sean_is_peer_pay x on a.is_peer_pay = x.is_peer_pay\
+\
+left join sean_version y on a.version = y.version\
+\
+left join sean_info1 i1 on a.info_1 = i1.info_1\
+\
+left join sean_info2 i2 on a.info_2 = i2.info_2\
+\
+left join sean_clientip sct on a.client_ip = sct.client_ip\
+\
+left join sean_opposingid sos on a.opposing_id = sos.opposing_id\
+\
+left join sean_user_info_month uim on a.user_id = uim.user_id \
+and datetrunc(to_date(a.gmt_occur,'yyyy-mm-dd hh'),'dd') = uim.gmt_dt\
+\
+left join sean_user_info_d7 z on a.user_id = z.user_id  \
+and datetrunc(to_date(a.gmt_occur,'yyyy-mm-dd hh'),'dd') = z.gmt_dt\
+\
+left join sean_user_info_d1 zd1 on a.user_id = zd1.user_id  \
+and datetrunc(to_date(a.gmt_occur,'yyyy-mm-dd hh'),'dd') = zd1.gmt_dt\
+\
+left join sean_user_info_hour uih6 on  a.user_id = uih6.user_id  \
+and to_date(a.gmt_occur,'yyyy-mm-dd hh') = uih6.gmt_dt\
+\
+left join sean_user_info_hour uih on  a.user_id = uih.user_id  \
+and to_date(a.gmt_occur,'yyyy-mm-dd hh') = uih.gmt_dt\
+\
+left join sean_opposing_info_month oim on a.opposing_id = oim.opposing_id \
+and  datetrunc(to_date(a.gmt_occur,'yyyy-mm-dd hh'),'dd') = oim.gmt_dt\
+\
+left join sean_opposing_info_7d oi on a.opposing_id = oi.opposing_id \
+and datetrunc(to_date(a.gmt_occur,'yyyy-mm-dd hh'),'dd') = oi.gmt_dt\
+\
+left join sean_opposing_info_d1 oid1 on a.opposing_id = oid1.opposing_id \
+and datetrunc(to_date(a.gmt_occur,'yyyy-mm-dd hh'),'dd') = oid1.gmt_dt\
+\
+left join sean_opposing_info_hour6 oih6  on a.opposing_id = oih6.opposing_id \
+and datetrunc(to_date(a.gmt_occur,'yyyy-mm-dd hh'),'dd') = oih6.gmt_dt\
+\
+left join sean_opposing_info_hour oih on a.opposing_id = oih.opposing_id \
+and to_date(a.gmt_occur,'yyyy-mm-dd hh') = oih.gmt_dt\
+\
+left join sean_clientip_month cim on a.client_ip = cim.client_ip \
+and to_date(a.gmt_occur,'yyyy-mm-dd hh') = cim.gmt_dt\
+\
+left join sean_clientip_d7 cd7 on a.client_ip = cd7.client_ip \
+and  datetrunc(to_date(a.gmt_occur,'yyyy-mm-dd hh'),'dd') = cd7.gmt_dt\
+\
+left JOIN sean_clientip_d1 cd1 on a.client_ip = cd1.client_ip \
+and  datetrunc(to_date(a.gmt_occur,'yyyy-mm-dd hh'),'dd') = cd1.gmt_dt\
+\
+left join sean_clientip_hour6 ch6 on  a.client_ip = ch6.client_ip  \
+and to_date(a.gmt_occur,'yyyy-mm-dd hh') = ch6.gmt_dt\
+\
+left join sean_clientip_hour ch1 on  a.client_ip = ch1.client_ip  \
+and to_date(a.gmt_occur,'yyyy-mm-dd hh') = ch1.gmt_dt\
+\
+left join sean_device_sign_month dsm on a.device_sign = dsm.device_sign \
+and to_date(a.gmt_occur,'yyyy-mm-dd hh') = dsm.gmt_dt\
+\
+left join sean_device_sign_d7 dsd7 on a.device_sign = dsd7.device_sign \
+and datetrunc(to_date(a.gmt_occur,'yyyy-mm-dd hh'),'dd') = dsd7.gmt_dt\
+\
+left join sean_device_sign_d1 dsd1 on a.device_sign = dsd1.device_sign \
+and datetrunc(to_date(a.gmt_occur,'yyyy-mm-dd hh'),'dd') = dsd1.gmt_dt\
+\
+left join sean_device_sign_hour6 dsh6 on a.device_sign = dsh6.device_sign \
+and  to_date(a.gmt_occur,'yyyy-mm-dd hh') = dsh6.gmt_dt\
+\
+left join sean_device_sign_hour dsh on a.device_sign = dsh.device_sign  \
+and to_date(a.gmt_occur,'yyyy-mm-dd hh') = dsh.gmt_dt\
+\
+left join sean_ipdevice_d7 id7 on a.client_ip = id7.client_ip \
+and a.device_sign = id7.device_sign  \
+and to_date(a.gmt_occur,'yyyy-mm-dd hh') = id7.gmt_dt\
+\
+left join sean_ipdevice_d1 id1 on a.client_ip = id1.client_ip \
+and a.device_sign = id1.device_sign  \
+and to_date(a.gmt_occur,'yyyy-mm-dd hh') = id1.gmt_dt\
+\
+left join sean_ipdevice_hour6 idh6 on a.client_ip = idh6.client_ip \
+and a.device_sign = idh6.device_sign  \
+and to_date(a.gmt_occur,'yyyy-mm-dd hh') = idh6.gmt_dt\
+\
+left join sean_ipdevice_hour idh on a.client_ip = idh.client_ip \
+and a.device_sign = idh.device_sign  \
+and to_date(a.gmt_occur,'yyyy-mm-dd hh') = idh.gmt_dt\
+\
+left join sean_user_gmt_month_day_hour gmdh on a.user_id = gmdh.user_id \
+and a.gmt_occur = gmdh.gmt_occur\
+\
+left join sean_opposing_gmt_month_day_hour ogmdh on a.opposing_id = ogmdh.opposing_id \
+and a.gmt_occur = ogmdh.gmt_occur\
+\
+left join sean_user_occur_time_avg uota on a.user_id = uota.user_id \
+\
+left join sean_opposing_occur_time_avg oota on a.opposing_id = oota.opposing_id\
+\
+left join sean_clientip_occur_time_avg cota on a.client_ip = cota.client_ip\
+\
+left join sean_devicesign_occur_time_avg  dota on a.device_sign = dota.device_sign\
+\
+left join sean_user_occur_time_current uotc on a.user_id = uotc.user_id \
+and to_date(a.gmt_occur,'yyyy-mm-dd hh') = uotc.gmt_occur\
+\
+left join sean_opposing_occur_time_current ootc on a.opposing_id = ootc.opposing_id \
+and to_date(a.gmt_occur,'yyyy-mm-dd hh') = ootc.gmt_occur\
+\
+left join sean_clientip_occur_time_current cotc on a.client_ip = cotc.client_ip \
+and to_date(a.gmt_occur,'yyyy-mm-dd hh') = cotc.gmt_occur\
+\
+left join sean_devicesign_occur_time_current dotc on a.device_sign = dotc.device_sign \
+and to_date(a.gmt_occur,'yyyy-mm-dd hh') = dotc.gmt_occur\
+\
+left join sean_opposing_compare_last ocl on a.event_id = ocl.event_id \
+and a.opposing_id = ocl.opposing_id\
+\
+left join sean_compare_last cl on a.event_id = cl.event_id \
+and a.user_id = cl.user_id}

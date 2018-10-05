@@ -1,0 +1,7 @@
+-- 测试集中的用户是否有在训练集中
+-- 没有
+select test.user_id as id1, train.user_id as id2
+from atec_1000w_oota_data as test
+inner join atec_1000w_ins_data as train
+on test.user_id = train.user_id
+

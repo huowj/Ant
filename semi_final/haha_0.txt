@@ -1,0 +1,46 @@
+-- select * from wen_feature_importance;
+-- select * from atec_1000w_ins_data as train;
+
+-- -- desc atec_1000w_ins_data;
+
+-- -- select count(distinct())
+
+-- -- select * from 
+-- -- (
+-- --     select *, row_number() over(
+-- --     order by event_id) as haha
+-- --     from atec_1000w_ins_data
+-- -- ) a
+-- -- where a.haha > 100;
+
+-- -- select top 100 * from table0
+-- -- where id not in
+-- -- (
+-- --     select top 100 id from table1
+-- -- )
+
+-- --insert overwrite
+
+-- --select regexp_extract(prediction_detail, '\"1\":(.+)\}')
+-- --from result_20180717
+
+-- -- cast(get_json_object(predcition_detail, '$.1') as doubel) as score;
+
+-- -- divide the trainsets
+-- -- select * from atec_1000w_ins_data
+-- -- where gmt_occur >= '2018-09-05'
+-- -- and gmt_occur <= '2018-10-25';
+
+-- -- insert overwrite table atec_1000w_ins_data
+-- -- select *, replace(is_fraud, -1, 1) as new_is_fraud
+-- -- from atec_1000w_ins_data;
+
+-- -- create table hahahaha as
+-- -- select *, replace(is_fraud, -1, 1) as new_is_fraud
+-- -- from atec_1000w_ins_data;
+
+desc atec_1000w_ins_data;
+-- amt & is_fraud BIGINT
+-- all others are STRING
+
+

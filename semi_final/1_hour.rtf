@@ -1,0 +1,653 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf600
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset134 PingFangSC-Regular;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww12600\viewh10880\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 SELECT user_id \
+      ,COUNT(user_id)                           AS pay_count \
+      ,MIN(TO_DATE(gmt_occur ,'yyyy-MM-dd HH')) AS gmt_min \
+      ,MAX(TO_DATE(gmt_occur ,'yyyy-MM-dd HH')) AS gmt_max \
+  FROM atec_1000w_ins_data \
+GROUP BY user_id\
+;\
+\
+DROP TABLE IF EXISTS huo_user_pay\
+;\
+\
+CREATE TABLE IF NOT EXISTS huo_user_pay AS\
+  SELECT a.* \
+       ,DATEDIFF(gmt_max ,gmt_min ,'dd') AS dif \
+   FROM (SELECT user_id \
+               ,COUNT(user_id)                           AS pay_count \
+               ,MIN(TO_DATE(gmt_occur ,'yyyy-MM-dd HH')) AS gmt_min \
+               ,MAX(TO_DATE(gmt_occur ,'yyyy-MM-dd HH')) AS gmt_max \
+           FROM atec_1000w_ins_data \
+         GROUP BY user_id \
+        )a\
+;\
+\
+SELECT MAX(pay_count) AS count_max \
+      ,MIN(pay_count) AS count_min \
+      ,MAX(dif)       AS dif_max \
+      ,MIN(dif)       AS dif_min \
+  FROM huo_user_pay\
+;\
+\
+--------------------------------------I am a beautiful boundary---------------------------------\
+DROP TABLE IF EXISTS huo_1_hour_user_id;\
+\
+CREATE TABLE IF NOT EXISTS huo_1_hour_user_id\
+AS\
+SELECT a.event_id AS event_id_1, a.user_id AS user_id_1, a.gmt_occur AS gmt_occur_1, a.client_ip AS client_ip_1, a.network AS network_1\
+	, a.device_sign AS device_sign_1, a.info_1 AS info_1_1, a.info_2 AS info_2_1, a.ip_prov AS ip_prov_1, a.ip_city AS ip_city_1\
+	, a.cert_prov AS cert_prov_1, a.cert_city AS cert_city_1, a.card_bin_prov AS card_bin_prov_1, a.card_bin_city AS card_bin_city_1, a.card_mobile_prov AS card_mobile_prov_1\
+	, a.card_mobile_city AS card_mobile_city_1, a.card_cert_prov AS card_cert_prov_1, a.card_cert_city AS card_cert_city_1, a.is_one_people AS is_one_people_1, a.mobile_oper_platform AS mobile_oper_platform_1\
+	, a.operation_channel AS operation_channel_1, a.pay_scene AS pay_scene_1, a.amt AS amt_1, a.card_cert_no AS card_cert_no_1, a.opposing_id AS opposing_id_1\
+	, a.income_card_no AS income_card_no_1, a.income_card_mobile AS income_card_mobile_1, a.income_card_bank_code AS income_card_bank_code_1, a.province AS province_1, a.city AS city_1\
+	, a.is_peer_pay AS is_peer_pay_1, a.version AS version_1, a.is_fraud AS is_fraud_1, b.*\
+FROM atec_1000w_ins_data a\
+	LEFT JOIN atec_1000w_ins_data b\
+	ON a.user_id = b.user_id\
+		AND a.gmt_occur = b.gmt_occur;\
+\
+SELECT *\
+FROM huo_1_hour_user_id;\
+---------------------------------------_1
+\f1 \'ca\'c7\'d6\'f7\'bc\'fc
+\f0 --------------------------------------------------\
+\
+----------------------------------------count---------------------------------------------------\
+DROP TABLE IF EXISTS huo_1_hour_user_id_features_0;\
+\
+CREATE TABLE IF NOT EXISTS huo_1_hour_user_id_features_0\
+AS\
+SELECT event_id_1, user_id_1, gmt_occur_1, client_ip_1, network_1\
+	, device_sign_1, info_1_1, info_2_1, ip_prov_1, ip_city_1\
+	, cert_prov_1, cert_city_1, card_bin_prov_1, card_bin_city_1, card_mobile_prov_1\
+	, card_mobile_city_1, card_cert_prov_1, card_cert_city_1, is_one_people_1, mobile_oper_platform_1\
+	, operation_channel_1, pay_scene_1, amt_1, card_cert_no_1, opposing_id_1\
+	, income_card_no_1, income_card_mobile_1, income_card_bank_code_1, province_1, city_1\
+	, is_peer_pay_1, version_1, is_fraud_1, COUNT(event_id) AS event_id_count\
+	, COUNT(DISTINCT client_ip) AS client_ip_count, COUNT(DISTINCT network) AS network_count\
+	, COUNT(DISTINCT device_sign) AS device_sign_count, COUNT(DISTINCT info_1) AS info_1_count\
+	, COUNT(DISTINCT info_2) AS info_2_count, COUNT(DISTINCT ip_prov) AS ip_prov_count\
+	, COUNT(DISTINCT ip_city) AS ip_city_count, COUNT(DISTINCT cert_prov) AS cert_prov_count\
+	, COUNT(DISTINCT cert_city) AS cert_citu_count, COUNT(DISTINCT card_bin_prov) AS card_bin_prov_count\
+	, COUNT(DISTINCT card_bin_city) AS card_bin_city_count, COUNT(DISTINCT card_mobile_prov) AS card_mobile_prov_count\
+	, COUNT(DISTINCT card_mobile_city) AS card_mobile_city_count, COUNT(DISTINCT card_cert_city) AS card_cert_city_count\
+	, COUNT(DISTINCT is_one_people) AS is_one_people_count, COUNT(DISTINCT mobile_oper_platform) AS mobile_oper_platform_count\
+	, COUNT(DISTINCT operation_channel) AS operation_channel_count, COUNT(DISTINCT pay_scene) AS pay_scene_count\
+	, COUNT(DISTINCT amt) AS amt_count, SUM(amt) AS amt_sum\
+	, COUNT(DISTINCT card_cert_no) AS card_cert_no_count, COUNT(DISTINCT opposing_id) AS opposing_id_count\
+	, COUNT(DISTINCT income_card_no) AS income_card_no_count, COUNT(DISTINCT income_card_cert_no) AS income_card_cert_no_count\
+	, COUNT(DISTINCT income_card_mobile) AS income_card_mobile_count, COUNT(DISTINCT income_card_bank_code) AS income_card_bank_code_count\
+	, COUNT(DISTINCT province) AS province_count, COUNT(DISTINCT city) AS city_count\
+	, COUNT(DISTINCT is_peer_pay) AS is_peer_pay_count, COUNT(DISTINCT version) AS version_count\
+FROM huo_1_hour_user_id\
+GROUP BY event_id_1, user_id_1, gmt_occur_1, client_ip_1, network_1, device_sign_1, info_1_1, info_2_1, ip_prov_1, ip_city_1, cert_prov_1, cert_city_1, card_bin_prov_1, card_bin_city_1, card_mobile_prov_1, card_mobile_city_1, card_cert_prov_1, card_cert_city_1, is_one_people_1, mobile_oper_platform_1, operation_channel_1, pay_scene_1, amt_1, card_cert_no_1, opposing_id_1, income_card_no_1, income_card_mobile_1, income_card_bank_code_1, province_1, city_1, is_peer_pay_1, version_1, is_fraud_1;\
+\
+SELECT COUNT(1)\
+FROM huo_1_hour_user_id_features_0;\
+------------------------------------------
+\f1 \'c3\'bb\'d3\'d0
+\f0 amt
+\f1 \'b5\'c4
+\f0 rate------------------------------------------\
+DROP TABLE IF EXISTS temp_0;\
+\
+CREATE TABLE IF NOT EXISTS temp_0\
+AS\
+SELECT a.*, b.count_num_1, a.count_num / b.count_num_1 AS info_1_1_hour_rate\
+FROM (\
+	SELECT event_id_1, info_1, COUNT(1) AS count_num\
+	FROM huo_1_hour_user_id\
+	GROUP BY event_id_1, info_1\
+) a\
+	LEFT JOIN (\
+		SELECT event_id_1, COUNT(1) AS count_num_1\
+		FROM huo_1_hour_user_id\
+		GROUP BY event_id_1\
+	) b\
+	ON a.event_id_1 = b.event_id_1;\
+\
+SELECT *\
+FROM temp_0;\
+\
+--------------------------------------I am a happy boundary-------------------------------------------\
+\
+DROP TABLE IF EXISTS huo_1_hour_user_id_features_1;\
+\
+CREATE TABLE IF NOT EXISTS huo_1_hour_user_id_features_1\
+AS\
+SELECT \
+t.*, c_client_ip.client_ip_1_hour_rate, c_network.network_1_hour_rate, \
+c_device_sign.device_sign_1_hour_rate, c_info_1.info_1_1_hour_rate, \
+c_info_2.info_2_1_hour_rate, c_ip_prov.ip_prov_1_hour_rate, \
+c_ip_city.ip_city_1_hour_rate, c_cert_prov.cert_prov_1_hour_rate, \
+c_cert_city.cert_city_1_hour_rate, c_card_bin_prov.card_bin_prov_1_hour_rate, \
+c_card_bin_city.card_bin_city_1_hour_rate, c_card_mobile_prov.card_mobile_prov_1_hour_rate, \
+c_card_mobile_city.card_mobile_city_1_hour_rate, c_card_cert_prov.card_cert_prov_1_hour_rate, \
+c_card_cert_city.card_cert_city_1_hour_rate, c_is_one_people.is_one_people_1_hour_rate, \
+c_mobile_oper_platform.mobile_oper_platform_1_hour_rate, c_operation_channel.operation_channel_1_hour_rate, \
+c_pay_scene.pay_scene_1_hour_rate, c_card_cert_no.card_cert_no_1_hour_rate, \
+c_opposing_id.opposing_id_1_hour_rate, c_income_card_no.income_card_no_1_hour_rate, \
+c_income_card_cert_no.income_card_cert_no_1_hour_rate, c_income_card_mobile.income_card_mobile_1_hour_rate, \
+c_income_card_bank_code.income_card_bank_code_1_hour_rate, c_province.province_1_hour_rate, \
+c_city.city_1_hour_rate, c_is_peer_pay.is_peer_pay_1_hour_rate, c_version.version_1_hour_rate\
+FROM atec_1000w_ins_data t\
+	LEFT JOIN (\
+		SELECT a.*, b.count_num_1, a.count_num / b.count_num_1 AS client_ip_1_hour_rate\
+		FROM (\
+			SELECT event_id_1, client_ip, COUNT(1) AS count_num\
+			FROM huo_1_hour_user_id\
+			GROUP BY event_id_1, client_ip\
+		) a\
+			LEFT JOIN (\
+				SELECT event_id_1, COUNT(1) AS count_num_1\
+				FROM huo_1_hour_user_id\
+				GROUP BY event_id_1\
+			) b\
+			ON a.event_id_1 = b.event_id_1\
+	) c_client_ip\
+	ON t.event_id = c_client_ip.event_id_1\
+		AND t.client_ip = c_client_ip.client_ip\
+	LEFT JOIN (\
+		SELECT a.*, b.count_num_1, a.count_num / b.count_num_1 AS network_1_hour_rate\
+		FROM (\
+			SELECT event_id_1, network, COUNT(1) AS count_num\
+			FROM huo_1_hour_user_id\
+			GROUP BY event_id_1, network\
+		) a\
+			LEFT JOIN (\
+				SELECT event_id_1, COUNT(1) AS count_num_1\
+				FROM huo_1_hour_user_id\
+				GROUP BY event_id_1\
+			) b\
+			ON a.event_id_1 = b.event_id_1\
+	) c_network\
+	ON t.event_id = c_network.event_id_1\
+		AND t.network = c_network.network\
+	LEFT JOIN (\
+		SELECT a.*, b.count_num_1, a.count_num / b.count_num_1 AS device_sign_1_hour_rate\
+		FROM (\
+			SELECT event_id_1, device_sign, COUNT(1) AS count_num\
+			FROM huo_1_hour_user_id\
+			GROUP BY event_id_1, device_sign\
+		) a\
+			LEFT JOIN (\
+				SELECT event_id_1, COUNT(1) AS count_num_1\
+				FROM huo_1_hour_user_id\
+				GROUP BY event_id_1\
+			) b\
+			ON a.event_id_1 = b.event_id_1\
+	) c_device_sign\
+	ON t.event_id = c_device_sign.event_id_1\
+		AND t.device_sign = c_device_sign.device_sign\
+	LEFT JOIN (\
+		SELECT a.*, b.count_num_1, a.count_num / b.count_num_1 AS info_1_1_hour_rate\
+		FROM (\
+			SELECT event_id_1, info_1, COUNT(1) AS count_num\
+			FROM huo_1_hour_user_id\
+			GROUP BY event_id_1, info_1\
+		) a\
+			LEFT JOIN (\
+				SELECT event_id_1, COUNT(1) AS count_num_1\
+				FROM huo_1_hour_user_id\
+				GROUP BY event_id_1\
+			) b\
+			ON a.event_id_1 = b.event_id_1\
+	) c_info_1\
+	ON t.event_id = c_info_1.event_id_1\
+		AND t.info_1 = c_info_1.info_1\
+	LEFT JOIN (\
+		SELECT a.*, b.count_num_1, a.count_num / b.count_num_1 AS info_2_1_hour_rate\
+		FROM (\
+			SELECT event_id_1, info_2, COUNT(1) AS count_num\
+			FROM huo_1_hour_user_id\
+			GROUP BY event_id_1, info_2\
+		) a\
+			LEFT JOIN (\
+				SELECT event_id_1, COUNT(1) AS count_num_1\
+				FROM huo_1_hour_user_id\
+				GROUP BY event_id_1\
+			) b\
+			ON a.event_id_1 = b.event_id_1\
+	) c_info_2\
+	ON t.event_id = c_info_2.event_id_1\
+		AND t.info_2 = c_info_2.info_2\
+	LEFT JOIN (\
+		SELECT a.*, b.count_num_1, a.count_num / b.count_num_1 AS ip_prov_1_hour_rate\
+		FROM (\
+			SELECT event_id_1, ip_prov, COUNT(1) AS count_num\
+			FROM huo_1_hour_user_id\
+			GROUP BY event_id_1, ip_prov\
+		) a\
+			LEFT JOIN (\
+				SELECT event_id_1, COUNT(1) AS count_num_1\
+				FROM huo_1_hour_user_id\
+				GROUP BY event_id_1\
+			) b\
+			ON a.event_id_1 = b.event_id_1\
+	) c_ip_prov\
+	ON t.event_id = c_ip_prov.event_id_1\
+		AND t.ip_prov = c_ip_prov.ip_prov\
+	LEFT JOIN (\
+		SELECT a.*, b.count_num_1, a.count_num / b.count_num_1 AS ip_city_1_hour_rate\
+		FROM (\
+			SELECT event_id_1, ip_city, COUNT(1) AS count_num\
+			FROM huo_1_hour_user_id\
+			GROUP BY event_id_1, ip_city\
+		) a\
+			LEFT JOIN (\
+				SELECT event_id_1, COUNT(1) AS count_num_1\
+				FROM huo_1_hour_user_id\
+				GROUP BY event_id_1\
+			) b\
+			ON a.event_id_1 = b.event_id_1\
+	) c_ip_city\
+	ON t.event_id = c_ip_city.event_id_1\
+		AND t.ip_city = c_ip_city.ip_city\
+	LEFT JOIN (\
+		SELECT a.*, b.count_num_1, a.count_num / b.count_num_1 AS cert_prov_1_hour_rate\
+		FROM (\
+			SELECT event_id_1, cert_prov, COUNT(1) AS count_num\
+			FROM huo_1_hour_user_id\
+			GROUP BY event_id_1, cert_prov\
+		) a\
+			LEFT JOIN (\
+				SELECT event_id_1, COUNT(1) AS count_num_1\
+				FROM huo_1_hour_user_id\
+				GROUP BY event_id_1\
+			) b\
+			ON a.event_id_1 = b.event_id_1\
+	) c_cert_prov\
+	ON t.event_id = c_cert_prov.event_id_1\
+		AND t.cert_prov = c_cert_prov.cert_prov\
+	LEFT JOIN (\
+		SELECT a.*, b.count_num_1, a.count_num / b.count_num_1 AS cert_city_1_hour_rate\
+		FROM (\
+			SELECT event_id_1, cert_city, COUNT(1) AS count_num\
+			FROM huo_1_hour_user_id\
+			GROUP BY event_id_1, cert_city\
+		) a\
+			LEFT JOIN (\
+				SELECT event_id_1, COUNT(1) AS count_num_1\
+				FROM huo_1_hour_user_id\
+				GROUP BY event_id_1\
+			) b\
+			ON a.event_id_1 = b.event_id_1\
+	) c_cert_city\
+	ON t.event_id = c_cert_city.event_id_1\
+		AND t.cert_city = c_cert_city.cert_city\
+	LEFT JOIN (\
+		SELECT a.*, b.count_num_1, a.count_num / b.count_num_1 AS card_bin_prov_1_hour_rate\
+		FROM (\
+			SELECT event_id_1, card_bin_prov, COUNT(1) AS count_num\
+			FROM huo_1_hour_user_id\
+			GROUP BY event_id_1, card_bin_prov\
+		) a\
+			LEFT JOIN (\
+				SELECT event_id_1, COUNT(1) AS count_num_1\
+				FROM huo_1_hour_user_id\
+				GROUP BY event_id_1\
+			) b\
+			ON a.event_id_1 = b.event_id_1\
+	) c_card_bin_prov\
+	ON t.event_id = c_card_bin_prov.event_id_1\
+		AND t.card_bin_prov = c_card_bin_prov.card_bin_prov\
+	LEFT JOIN (\
+		SELECT a.*, b.count_num_1, a.count_num / b.count_num_1 AS card_bin_city_1_hour_rate\
+		FROM (\
+			SELECT event_id_1, card_bin_city, COUNT(1) AS count_num\
+			FROM huo_1_hour_user_id\
+			GROUP BY event_id_1, card_bin_city\
+		) a\
+			LEFT JOIN (\
+				SELECT event_id_1, COUNT(1) AS count_num_1\
+				FROM huo_1_hour_user_id\
+				GROUP BY event_id_1\
+			) b\
+			ON a.event_id_1 = b.event_id_1\
+	) c_card_bin_city\
+	ON t.event_id = c_card_bin_city.event_id_1\
+		AND t.card_bin_city = c_card_bin_city.card_bin_city\
+	LEFT JOIN (\
+		SELECT a.*, b.count_num_1, a.count_num / b.count_num_1 AS card_mobile_prov_1_hour_rate\
+		FROM (\
+			SELECT event_id_1, card_mobile_prov, COUNT(1) AS count_num\
+			FROM huo_1_hour_user_id\
+			GROUP BY event_id_1, card_mobile_prov\
+		) a\
+			LEFT JOIN (\
+				SELECT event_id_1, COUNT(1) AS count_num_1\
+				FROM huo_1_hour_user_id\
+				GROUP BY event_id_1\
+			) b\
+			ON a.event_id_1 = b.event_id_1\
+	) c_card_mobile_prov\
+	ON t.event_id = c_card_mobile_prov.event_id_1\
+		AND t.card_mobile_prov = c_card_mobile_prov.card_mobile_prov\
+	LEFT JOIN (\
+		SELECT a.*, b.count_num_1, a.count_num / b.count_num_1 AS card_mobile_city_1_hour_rate\
+		FROM (\
+			SELECT event_id_1, card_mobile_city, COUNT(1) AS count_num\
+			FROM huo_1_hour_user_id\
+			GROUP BY event_id_1, card_mobile_city\
+		) a\
+			LEFT JOIN (\
+				SELECT event_id_1, COUNT(1) AS count_num_1\
+				FROM huo_1_hour_user_id\
+				GROUP BY event_id_1\
+			) b\
+			ON a.event_id_1 = b.event_id_1\
+	) c_card_mobile_city\
+	ON t.event_id = c_card_mobile_city.event_id_1\
+		AND t.card_mobile_city = c_card_mobile_city.card_mobile_city\
+	LEFT JOIN (\
+		SELECT a.*, b.count_num_1, a.count_num / b.count_num_1 AS card_cert_prov_1_hour_rate\
+		FROM (\
+			SELECT event_id_1, card_cert_prov, COUNT(1) AS count_num\
+			FROM huo_1_hour_user_id\
+			GROUP BY event_id_1, card_cert_prov\
+		) a\
+			LEFT JOIN (\
+				SELECT event_id_1, COUNT(1) AS count_num_1\
+				FROM huo_1_hour_user_id\
+				GROUP BY event_id_1\
+			) b\
+			ON a.event_id_1 = b.event_id_1\
+	) c_card_cert_prov\
+	ON t.event_id = c_card_cert_prov.event_id_1\
+		AND t.card_cert_prov = c_card_cert_prov.card_cert_prov\
+	LEFT JOIN (\
+		SELECT a.*, b.count_num_1, a.count_num / b.count_num_1 AS card_cert_city_1_hour_rate\
+		FROM (\
+			SELECT event_id_1, card_cert_city, COUNT(1) AS count_num\
+			FROM huo_1_hour_user_id\
+			GROUP BY event_id_1, card_cert_city\
+		) a\
+			LEFT JOIN (\
+				SELECT event_id_1, COUNT(1) AS count_num_1\
+				FROM huo_1_hour_user_id\
+				GROUP BY event_id_1\
+			) b\
+			ON a.event_id_1 = b.event_id_1\
+	) c_card_cert_city\
+	ON t.event_id = c_card_cert_city.event_id_1\
+		AND t.card_cert_city = c_card_cert_city.card_cert_city\
+	LEFT JOIN (\
+		SELECT a.*, b.count_num_1, a.count_num / b.count_num_1 AS is_one_people_1_hour_rate\
+		FROM (\
+			SELECT event_id_1, is_one_people, COUNT(1) AS count_num\
+			FROM huo_1_hour_user_id\
+			GROUP BY event_id_1, is_one_people\
+		) a\
+			LEFT JOIN (\
+				SELECT event_id_1, COUNT(1) AS count_num_1\
+				FROM huo_1_hour_user_id\
+				GROUP BY event_id_1\
+			) b\
+			ON a.event_id_1 = b.event_id_1\
+	) c_is_one_people\
+	ON t.event_id = c_is_one_people.event_id_1\
+		AND t.is_one_people = c_is_one_people.is_one_people\
+	LEFT JOIN (\
+		SELECT a.*, b.count_num_1, a.count_num / b.count_num_1 AS mobile_oper_platform_1_hour_rate\
+		FROM (\
+			SELECT event_id_1, mobile_oper_platform, COUNT(1) AS count_num\
+			FROM huo_1_hour_user_id\
+			GROUP BY event_id_1, mobile_oper_platform\
+		) a\
+			LEFT JOIN (\
+				SELECT event_id_1, COUNT(1) AS count_num_1\
+				FROM huo_1_hour_user_id\
+				GROUP BY event_id_1\
+			) b\
+			ON a.event_id_1 = b.event_id_1\
+	) c_mobile_oper_platform\
+	ON t.event_id = c_mobile_oper_platform.event_id_1\
+		AND t.mobile_oper_platform = c_mobile_oper_platform.mobile_oper_platform\
+	LEFT JOIN (\
+		SELECT a.*, b.count_num_1, a.count_num / b.count_num_1 AS operation_channel_1_hour_rate\
+		FROM (\
+			SELECT event_id_1, operation_channel, COUNT(1) AS count_num\
+			FROM huo_1_hour_user_id\
+			GROUP BY event_id_1, operation_channel\
+		) a\
+			LEFT JOIN (\
+				SELECT event_id_1, COUNT(1) AS count_num_1\
+				FROM huo_1_hour_user_id\
+				GROUP BY event_id_1\
+			) b\
+			ON a.event_id_1 = b.event_id_1\
+	) c_operation_channel\
+	ON t.event_id = c_operation_channel.event_id_1\
+		AND t.operation_channel = c_operation_channel.operation_channel\
+	LEFT JOIN (\
+		SELECT a.*, b.count_num_1, a.count_num / b.count_num_1 AS pay_scene_1_hour_rate\
+		FROM (\
+			SELECT event_id_1, pay_scene, COUNT(1) AS count_num\
+			FROM huo_1_hour_user_id\
+			GROUP BY event_id_1, pay_scene\
+		) a\
+			LEFT JOIN (\
+				SELECT event_id_1, COUNT(1) AS count_num_1\
+				FROM huo_1_hour_user_id\
+				GROUP BY event_id_1\
+			) b\
+			ON a.event_id_1 = b.event_id_1\
+	) c_pay_scene\
+	ON t.event_id = c_pay_scene.event_id_1\
+		AND t.pay_scene = c_pay_scene.pay_scene\
+	LEFT JOIN (\
+		SELECT a.*, b.count_num_1, a.count_num / b.count_num_1 AS card_cert_no_1_hour_rate\
+		FROM (\
+			SELECT event_id_1, card_cert_no, COUNT(1) AS count_num\
+			FROM huo_1_hour_user_id\
+			GROUP BY event_id_1, card_cert_no\
+		) a\
+			LEFT JOIN (\
+				SELECT event_id_1, COUNT(1) AS count_num_1\
+				FROM huo_1_hour_user_id\
+				GROUP BY event_id_1\
+			) b\
+			ON a.event_id_1 = b.event_id_1\
+	) c_card_cert_no\
+	ON t.event_id = c_card_cert_no.event_id_1\
+		AND t.card_cert_no = c_card_cert_no.card_cert_no\
+	LEFT JOIN (\
+		SELECT a.*, b.count_num_1, a.count_num / b.count_num_1 AS opposing_id_1_hour_rate\
+		FROM (\
+			SELECT event_id_1, opposing_id, COUNT(1) AS count_num\
+			FROM huo_1_hour_user_id\
+			GROUP BY event_id_1, opposing_id\
+		) a\
+			LEFT JOIN (\
+				SELECT event_id_1, COUNT(1) AS count_num_1\
+				FROM huo_1_hour_user_id\
+				GROUP BY event_id_1\
+			) b\
+			ON a.event_id_1 = b.event_id_1\
+	) c_opposing_id\
+	ON t.event_id = c_opposing_id.event_id_1\
+		AND t.opposing_id = c_opposing_id.opposing_id\
+	LEFT JOIN (\
+		SELECT a.*, b.count_num_1, a.count_num / b.count_num_1 AS income_card_no_1_hour_rate\
+		FROM (\
+			SELECT event_id_1, income_card_no, COUNT(1) AS count_num\
+			FROM huo_1_hour_user_id\
+			GROUP BY event_id_1, income_card_no\
+		) a\
+			LEFT JOIN (\
+				SELECT event_id_1, COUNT(1) AS count_num_1\
+				FROM huo_1_hour_user_id\
+				GROUP BY event_id_1\
+			) b\
+			ON a.event_id_1 = b.event_id_1\
+	) c_income_card_no\
+	ON t.event_id = c_income_card_no.event_id_1\
+		AND t.income_card_no = c_income_card_no.income_card_no\
+	LEFT JOIN (\
+		SELECT a.*, b.count_num_1, a.count_num / b.count_num_1 AS income_card_cert_no_1_hour_rate\
+		FROM (\
+			SELECT event_id_1, income_card_cert_no, COUNT(1) AS count_num\
+			FROM huo_1_hour_user_id\
+			GROUP BY event_id_1, income_card_cert_no\
+		) a\
+			LEFT JOIN (\
+				SELECT event_id_1, COUNT(1) AS count_num_1\
+				FROM huo_1_hour_user_id\
+				GROUP BY event_id_1\
+			) b\
+			ON a.event_id_1 = b.event_id_1\
+	) c_income_card_cert_no\
+	ON t.event_id = c_income_card_cert_no.event_id_1\
+		AND t.income_card_cert_no = c_income_card_cert_no.income_card_cert_no\
+	LEFT JOIN (\
+		SELECT a.*, b.count_num_1, a.count_num / b.count_num_1 AS income_card_mobile_1_hour_rate\
+		FROM (\
+			SELECT event_id_1, income_card_mobile, COUNT(1) AS count_num\
+			FROM huo_1_hour_user_id\
+			GROUP BY event_id_1, income_card_mobile\
+		) a\
+			LEFT JOIN (\
+				SELECT event_id_1, COUNT(1) AS count_num_1\
+				FROM huo_1_hour_user_id\
+				GROUP BY event_id_1\
+			) b\
+			ON a.event_id_1 = b.event_id_1\
+	) c_income_card_mobile\
+	ON t.event_id = c_income_card_mobile.event_id_1\
+		AND t.income_card_mobile = c_income_card_mobile.income_card_mobile\
+	LEFT JOIN (\
+		SELECT a.*, b.count_num_1, a.count_num / b.count_num_1 AS income_card_bank_code_1_hour_rate\
+		FROM (\
+			SELECT event_id_1, income_card_bank_code, COUNT(1) AS count_num\
+			FROM huo_1_hour_user_id\
+			GROUP BY event_id_1, income_card_bank_code\
+		) a\
+			LEFT JOIN (\
+				SELECT event_id_1, COUNT(1) AS count_num_1\
+				FROM huo_1_hour_user_id\
+				GROUP BY event_id_1\
+			) b\
+			ON a.event_id_1 = b.event_id_1\
+	) c_income_card_bank_code\
+	ON t.event_id = c_income_card_bank_code.event_id_1\
+		AND t.income_card_bank_code = c_income_card_bank_code.income_card_bank_code\
+	LEFT JOIN (\
+		SELECT a.*, b.count_num_1, a.count_num / b.count_num_1 AS province_1_hour_rate\
+		FROM (\
+			SELECT event_id_1, province, COUNT(1) AS count_num\
+			FROM huo_1_hour_user_id\
+			GROUP BY event_id_1, province\
+		) a\
+			LEFT JOIN (\
+				SELECT event_id_1, COUNT(1) AS count_num_1\
+				FROM huo_1_hour_user_id\
+				GROUP BY event_id_1\
+			) b\
+			ON a.event_id_1 = b.event_id_1\
+	) c_province\
+	ON t.event_id = c_province.event_id_1\
+		AND t.province = c_province.province\
+	LEFT JOIN (\
+		SELECT a.*, b.count_num_1, a.count_num / b.count_num_1 AS city_1_hour_rate\
+		FROM (\
+			SELECT event_id_1, city, COUNT(1) AS count_num\
+			FROM huo_1_hour_user_id\
+			GROUP BY event_id_1, city\
+		) a\
+			LEFT JOIN (\
+				SELECT event_id_1, COUNT(1) AS count_num_1\
+				FROM huo_1_hour_user_id\
+				GROUP BY event_id_1\
+			) b\
+			ON a.event_id_1 = b.event_id_1\
+	) c_city\
+	ON t.event_id = c_city.event_id_1\
+		AND t.city = c_city.city\
+	LEFT JOIN (\
+		SELECT a.*, b.count_num_1, a.count_num / b.count_num_1 AS is_peer_pay_1_hour_rate\
+		FROM (\
+			SELECT event_id_1, is_peer_pay, COUNT(1) AS count_num\
+			FROM huo_1_hour_user_id\
+			GROUP BY event_id_1, is_peer_pay\
+		) a\
+			LEFT JOIN (\
+				SELECT event_id_1, COUNT(1) AS count_num_1\
+				FROM huo_1_hour_user_id\
+				GROUP BY event_id_1\
+			) b\
+			ON a.event_id_1 = b.event_id_1\
+	) c_is_peer_pay\
+	ON t.event_id = c_is_peer_pay.event_id_1\
+		AND t.is_peer_pay = c_is_peer_pay.is_peer_pay\
+	LEFT JOIN (\
+		SELECT a.*, b.count_num_1, a.count_num / b.count_num_1 AS version_1_hour_rate\
+		FROM (\
+			SELECT event_id_1, version, COUNT(1) AS count_num\
+			FROM huo_1_hour_user_id\
+			GROUP BY event_id_1, version\
+		) a\
+			LEFT JOIN (\
+				SELECT event_id_1, COUNT(1) AS count_num_1\
+				FROM huo_1_hour_user_id\
+				GROUP BY event_id_1\
+			) b\
+			ON a.event_id_1 = b.event_id_1\
+	) c_version\
+	ON t.event_id = c_version.event_id_1\
+		AND t.version = c_version.version\
+        \
+SELECT *\
+FROM huo_1_hour_user_id_features_1;\
+\
+-------------------------------------I am a lucky boundary----------------------------------------\
+-------------------------------------think about the money----------------------------------------\
+DROP TABLE IF EXISTS huo_1_hour_user_id_features_2;\
+\
+CREATE TABLE IF NOT EXISTS huo_1_hour_user_id_features_2\
+AS\
+SELECT \
+t.*, c_amt.amt_1_hour_rate, c_amt_function.amt_rank, c_amt_function.amt_dense_rank, \
+c_amt_function.amt_row_number, c_amt_function.amt_avg, c_amt_function.amt_min, \
+c_amt_function.amt_max, c_amt_function.amt_median, c_amt_function.amt_stddev, \
+c_amt_function.amt_stddev_samp\
+FROM atec_1000w_ins_data t\
+	LEFT JOIN (\
+		SELECT a.*, b.count_num_1, a.count_num / b.count_num_1 AS amt_1_hour_rate\
+		FROM (\
+			SELECT event_id_1, amt, COUNT(1) AS count_num\
+			FROM huo_1_hour_user_id\
+			GROUP BY event_id_1, amt\
+		) a\
+			LEFT JOIN (\
+				SELECT event_id_1, COUNT(1) AS count_num_1\
+				FROM huo_1_hour_user_id\
+				GROUP BY event_id_1\
+			) b\
+			ON a.event_id_1 = b.event_id_1\
+	) c_amt\
+	ON t.event_id = c_amt.event_id_1\
+		AND t.amt = c_amt.amt\
+	LEFT JOIN (\
+		SELECT event_id_1, amt\
+        	, rank() OVER (PARTITION BY event_id_1 ORDER BY amt ASC) AS amt_rank\
+        	, dense_rank() OVER (PARTITION BY event_id_1 ORDER BY amt ASC) AS amt_dense_rank\
+        	, row_number() OVER (PARTITION BY event_id_1 ORDER BY amt ASC) AS amt_row_number\
+			, AVG(amt) AS amt_avg, MIN(amt) AS amt_min\
+			, MAX(amt) AS amt_max, median(amt) AS amt_median\
+			, STDDEV(amt) AS amt_stddev, STDDEV_SAMP(amt) AS amt_stddev_samp\
+        	, AVG(POW(amt, 3))/POW(STDDEV(amt), 3) as amt_skewness\
+        	, AVG(POW(amt, 4))/POW(STDDEV(amt), 4) as amt_kurtosis\
+		FROM huo_1_hour_user_id\
+		GROUP BY event_id_1, amt\
+	) c_amt_function\
+	ON t.event_id = c_amt_function.event_id_1\
+		AND t.amt = c_amt_function.amt;\
+\
+SELECT *\
+FROM huo_1_hour_user_id_features_2;}

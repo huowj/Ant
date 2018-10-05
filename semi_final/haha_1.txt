@@ -1,0 +1,510 @@
+-- select count(1) as num
+-- from atec_1000w_ins_data
+-- union all
+-- select count(1) as num
+-- from atec_1000w_oota_data;
+
+-- 4936882
+-- 9601365
+
+-- time
+-- 2017-09-05 00
+-- 2017-11-05 23
+
+-- select min(gmt_occur) as time0, 'train_min' as remark
+-- from atec_1000w_ins_data
+-- union all
+-- select max(gmt_occur) as time0, 'train_max' as remark
+-- from atec_1000w_ins_data
+-- union all
+-- select min(gmt_occur) as time0, 'test_min' as remark
+-- from atec_1000w_oota_data
+-- union all 
+-- select max(gmt_occur) as time0, 'test_max' as remark
+-- from atec_1000w_oota_data;
+
+-- numeric variable: amt & is_fraud
+-- date
+
+select count(distinct(event_id)) as count_1, 
+min(event_id) as min_1, 
+max(event_id) as max_1,
+'event_id' as remark, 
+count(1) - count(event_id) as null_num
+from atec_1000w_ins_data
+union all
+select count(distinct(user_id)) as count_1, 
+min(user_id) as min_1, 
+max(user_id) as max_1, 
+'user_id' as remark, 
+count(1) - count(user_id) as null_num
+from atec_1000w_ins_data
+union all 
+select count(distinct(gmt_occur)) as count_1, 
+min(gmt_occur) as min_1, 
+max(gmt_occur) as max_1, 
+'gmt_occur' as remark, 
+count(1) - count(gmt_occur) as null_num
+from atec_1000w_ins_data
+union all
+select count(distinct(client_ip)) as count_1, 
+min(client_ip) as min_1, 
+max(client_ip) as max_1, 
+'client_ip' as remark, 
+count(1) - count(client_ip) as null_num
+from atec_1000w_ins_data
+union all
+select count(distinct(network)) as count_1, 
+min(network) as min_1, 
+max(network) as max_1, 
+'network' as remark, 
+count(1) - count(network) as null_num
+from atec_1000w_ins_data
+union all 
+select count(distinct(device_sign)) as count_1,
+min(device_sign) as min_1, 
+max(device_sign) as max_1, 
+'device_sign' as remark, 
+count(1) - count(device_sign) as null_num
+from atec_1000w_ins_data
+union all
+select count(distinct(info_1)) as count_1, 
+min(info_1) as min_1, 
+max(info_2) as max_1, 
+'info_1' as remark, 
+count(1) - count(info_1) as null_num
+from atec_1000w_ins_data
+union all
+select count(distinct(info_2)) as count_1, 
+min(info_2) as min_1, 
+max(info_2) as max_1, 
+'info_2' as remark, 
+count(1) - count(info_2) as null_num
+from atec_1000w_ins_data
+union all
+select count(distinct(ip_prov)) as count_1, 
+min(ip_prov) as min_1, 
+max(ip_prov) as max_1, 
+'ip_prov' as remark, 
+count(1) - count(ip_prov) as null_num
+from atec_1000w_ins_data
+union all
+select count(distinct(ip_city)) as count_1, 
+min(ip_city) as min_1, 
+max(ip_city) as max_1, 
+'ip_city' as remark, 
+count(1) - count(ip_city) as null_num
+from atec_1000w_ins_data
+union all
+select count(distinct(cert_prov)) as count_1, 
+min(cert_prov) as min_1, 
+max(cert_prov) as max_1, 
+'cert_prov' as remark, 
+count(1) - count(cert_prov) as null_num
+from atec_1000w_ins_data
+union all
+select count(distinct(cert_city)) as count_1, 
+min(cert_city) as min_1, 
+max(cert_city) as max_1, 
+'cert_city' as remark, 
+count(1) - count(cert_city) as null_num
+from atec_1000w_ins_data
+union all
+select count(distinct(card_bin_prov)) as count_1, 
+min(card_bin_prov) as min_1, 
+max(card_bin_prov) as max_1, 
+'card_bin_prov' as remark, 
+count(1) - count(card_bin_prov) as null_num
+from atec_1000w_ins_data
+union all
+select count(distinct(card_bin_city)) as count_1, 
+min(card_bin_city) as min_1, 
+max(card_bin_city) as max_1, 
+'card_bin_city' as remark, 
+count(1) - count(card_bin_city) as null_num
+from atec_1000w_ins_data 
+union all
+select count(distinct(card_mobile_prov)) as count_1, 
+min(card_mobile_prov) as min_1, 
+max(card_mobile_prov) as max_1, 
+'card_mobile_prov' as remark, 
+count(1) - count(card_mobile_prov) as null_num
+from atec_1000w_ins_data
+union all
+select count(distinct(card_mobile_city)) as count_1, 
+min(card_mobile_city) as min_1, 
+max(card_mobile_city) as max_1, 
+'card_mobile_city' as remark, 
+count(1) - count(card_mobile_city) as null_num
+from atec_1000w_ins_data
+union all
+select count(distinct(card_cert_prov)) as count_1, 
+min(card_cert_prov) as min_1, 
+max(card_cert_prov) as max_1, 
+'card_cert_prov' as remark, 
+count(1) - count(card_cert_prov) as null_num
+from atec_1000w_ins_data
+union all
+select count(distinct(card_cert_city)) as count_1, 
+min(card_cert_city) as min_1, 
+max(card_cert_city) as max_1, 
+'card_cert_city' as remark, 
+count(1) - count(card_cert_city) as null_num
+from atec_1000w_ins_data
+union all
+select count(distinct(is_one_people)) as count_1, 
+min(is_one_people) as min_1, 
+max(is_one_people) as max_1, 
+'is_one_people' as remark, 
+count(1) - count(is_one_people) as null_num
+from atec_1000w_ins_data
+union all
+select count(distinct(mobile_oper_platform)) as count_1, 
+min(mobile_oper_platform) as min_1, 
+max(mobile_oper_platform) as max_1, 
+'mobile_oper_platform' as remark, 
+count(1) - count(mobile_oper_platform) as null_num
+from atec_1000w_ins_data
+union all
+select count(distinct(operation_channel)) as count_1, 
+min(operation_channel) as min_1, 
+max(operation_channel) as max_1, 
+'operation_channel' as remark, 
+count(1) - count(operation_channel) as null_num
+from atec_1000w_ins_data
+union all
+select count(distinct(pay_scene)) as count_1, 
+min(pay_scene) as min_1, 
+max(pay_scene) as max_1, 
+'pay_scene' as remark, 
+count(1) - count(pay_scene) as null_num
+from atec_1000w_ins_data
+union all
+select count(distinct(amt)) as count_1, 
+string(min(amt)) as min_1, 
+string(max(amt)) as max_1, 
+'amt' as remark, 
+count(1) - count(amt) as null_num
+from atec_1000w_ins_data
+union all
+select count(distinct(card_cert_no)) as count_1, 
+min(card_cert_no) as min_1, 
+max(card_cert_no) as max_1, 
+'card_cert_no' as remark, 
+count(1) - count(card_cert_no) as null_num
+from atec_1000w_ins_data
+union all
+select count(distinct(opposing_id)) as count_1, 
+min(opposing_id) as min_1, 
+max(opposing_id) as max_1, 
+'opposing_id' as remark, 
+count(1) - count(opposing_id) as null_num
+from atec_1000w_ins_data
+union all
+select count(distinct(income_card_no)) as count_1, 
+min(income_card_no) as min_1, 
+max(income_card_no) as max_1, 
+'income_card_no' as remark, 
+count(1) - count(income_card_no) as null_num
+from atec_1000w_ins_data
+union all
+select count(distinct(income_card_cert_no)) as count_1, 
+min(income_card_cert_no) as min_1, 
+max(income_card_cert_no) as max_1, 
+'income_card_cert_no' as remark, 
+count(1) - count(income_card_cert_no) as null_num
+from atec_1000w_ins_data
+union all
+select count(distinct(income_card_mobile)) as count_1, 
+min(income_card_mobile) as min_1, 
+max(income_card_mobile) as max_1, 
+'income_card_mobile' as remark, 
+count(1) - count(income_card_mobile) as null_num
+from atec_1000w_ins_data
+union all
+select count(distinct(income_card_bank_code)) as count_1, 
+min(income_card_bank_code) as min_1, 
+max(income_card_bank_code) as max_1, 
+'income_card_bank_code' as remark, 
+count(1) - count(income_card_bank_code) as null_num
+from atec_1000w_ins_data
+union all
+select count(distinct(province)) as count_1, 
+min(province) as min_1, 
+max(province) as max_1, 
+'province' as remark, 
+count(1) - count(province) as null_num
+from atec_1000w_ins_data
+union all
+select count(distinct(city)) as count_1, 
+min(city) as min_1, 
+max(city) as max_1, 
+'city' as remark, 
+count(1) - count(city) as null_num
+from atec_1000w_ins_data
+union all
+select count(distinct(is_peer_pay)) as count_1, 
+min(is_peer_pay) as min_1, 
+max(is_peer_pay) as max_1, 
+'is_peer_pay' as remark, 
+count(1) - count(is_peer_pay) as null_num
+from atec_1000w_ins_data
+union all
+select count(distinct(version)) as count_1, 
+min(version) as min_1, 
+max(version) as max_1, 
+'version' as remark, 
+count(1) - count(version) as null_num
+from atec_1000w_ins_data
+union all
+select count(distinct(dt)) as count_1, 
+min(dt) as min_1, 
+max(dt) as max_1, 
+'dt' as remark, 
+count(1) - count(dt) as null_num
+from atec_1000w_ins_data
+union all
+select count(distinct(is_fraud)) as count_1, 
+string(min(is_fraud)) as min_1, 
+string(max(is_fraud)) as max_1, 
+'is_fraud' as remark, 
+count(1) - count(is_fraud) as null_num
+from atec_1000w_ins_data;
+
+-- select count(distinct(event_id)) as count_1, 
+-- min(event_id) as min_1, 
+-- max(event_id) as max_1,
+-- 'event_id' as remark, 
+-- count(1) - count(event_id) as null_num
+-- from atec_1000w_oota_data
+-- union all
+-- select count(distinct(user_id)) as count_1, 
+-- min(user_id) as min_1, 
+-- max(user_id) as max_1, 
+-- 'user_id' as remark, 
+-- count(1) - count(user_id) as null_num
+-- from atec_1000w_oota_data
+-- union all 
+-- select count(distinct(gmt_occur)) as count_1, 
+-- min(gmt_occur) as min_1, 
+-- max(gmt_occur) as max_1, 
+-- 'gmt_occur' as remark, 
+-- count(1) - count(gmt_occur) as null_num
+-- from atec_1000w_oota_data
+-- union all
+-- select count(distinct(client_ip)) as count_1, 
+-- min(client_ip) as min_1, 
+-- max(client_ip) as max_1, 
+-- 'client_ip' as remark, 
+-- count(1) - count(client_ip) as null_num
+-- from atec_1000w_oota_data
+-- union all
+-- select count(distinct(network)) as count_1, 
+-- min(network) as min_1, 
+-- max(network) as max_1, 
+-- 'network' as remark, 
+-- count(1) - count(network) as null_num
+-- from atec_1000w_oota_data
+-- union all 
+-- select count(distinct(device_sign)) as count_1,
+-- min(device_sign) as min_1, 
+-- max(device_sign) as max_1, 
+-- 'device_sign' as remark, 
+-- count(1) - count(device_sign) as null_num
+-- from atec_1000w_oota_data
+-- union all
+-- select count(distinct(info_1)) as count_1, 
+-- min(info_1) as min_1, 
+-- max(info_2) as max_1, 
+-- 'info_1' as remark, 
+-- count(1) - count(info_1) as null_num
+-- from atec_1000w_oota_data
+-- union all
+-- select count(distinct(info_2)) as count_1, 
+-- min(info_2) as min_1, 
+-- max(info_2) as max_1, 
+-- 'info_2' as remark, 
+-- count(1) - count(info_2) as null_num
+-- from atec_1000w_oota_data
+-- union all
+-- select count(distinct(ip_prov)) as count_1, 
+-- min(ip_prov) as min_1, 
+-- max(ip_prov) as max_1, 
+-- 'ip_prov' as remark, 
+-- count(1) - count(ip_prov) as null_num
+-- from atec_1000w_oota_data
+-- union all
+-- select count(distinct(ip_city)) as count_1, 
+-- min(ip_city) as min_1, 
+-- max(ip_city) as max_1, 
+-- 'ip_city' as remark, 
+-- count(1) - count(ip_city) as null_num
+-- from atec_1000w_oota_data
+-- union all
+-- select count(distinct(cert_prov)) as count_1, 
+-- min(cert_prov) as min_1, 
+-- max(cert_prov) as max_1, 
+-- 'cert_prov' as remark, 
+-- count(1) - count(cert_prov) as null_num
+-- from atec_1000w_oota_data
+-- union all
+-- select count(distinct(cert_city)) as count_1, 
+-- min(cert_city) as min_1, 
+-- max(cert_city) as max_1, 
+-- 'cert_city' as remark, 
+-- count(1) - count(cert_city) as null_num
+-- from atec_1000w_oota_data
+-- union all
+-- select count(distinct(card_bin_prov)) as count_1, 
+-- min(card_bin_prov) as min_1, 
+-- max(card_bin_prov) as max_1, 
+-- 'card_bin_prov' as remark, 
+-- count(1) - count(card_bin_prov) as null_num
+-- from atec_1000w_oota_data
+-- union all
+-- select count(distinct(card_bin_city)) as count_1, 
+-- min(card_bin_city) as min_1, 
+-- max(card_bin_city) as max_1, 
+-- 'card_bin_city' as remark, 
+-- count(1) - count(card_bin_city) as null_num
+-- from atec_1000w_oota_data 
+-- union all
+-- select count(distinct(card_mobile_prov)) as count_1, 
+-- min(card_mobile_prov) as min_1, 
+-- max(card_mobile_prov) as max_1, 
+-- 'card_mobile_prov' as remark, 
+-- count(1) - count(card_mobile_prov) as null_num
+-- from atec_1000w_oota_data
+-- union all
+-- select count(distinct(card_mobile_city)) as count_1, 
+-- min(card_mobile_city) as min_1, 
+-- max(card_mobile_city) as max_1, 
+-- 'card_mobile_city' as remark, 
+-- count(1) - count(card_mobile_city) as null_num
+-- from atec_1000w_oota_data
+-- union all
+-- select count(distinct(card_cert_prov)) as count_1, 
+-- min(card_cert_prov) as min_1, 
+-- max(card_cert_prov) as max_1, 
+-- 'card_cert_prov' as remark, 
+-- count(1) - count(card_cert_prov) as null_num
+-- from atec_1000w_oota_data
+-- union all
+-- select count(distinct(card_cert_city)) as count_1, 
+-- min(card_cert_city) as min_1, 
+-- max(card_cert_city) as max_1, 
+-- 'card_cert_city' as remark, 
+-- count(1) - count(card_cert_city) as null_num
+-- from atec_1000w_oota_data
+-- union all
+-- select count(distinct(is_one_people)) as count_1, 
+-- min(is_one_people) as min_1, 
+-- max(is_one_people) as max_1, 
+-- 'is_one_people' as remark, 
+-- count(1) - count(is_one_people) as null_num
+-- from atec_1000w_oota_data
+-- union all
+-- select count(distinct(mobile_oper_platform)) as count_1, 
+-- min(mobile_oper_platform) as min_1, 
+-- max(mobile_oper_platform) as max_1, 
+-- 'mobile_oper_platform' as remark, 
+-- count(1) - count(mobile_oper_platform) as null_num
+-- from atec_1000w_oota_data
+-- union all
+-- select count(distinct(operation_channel)) as count_1, 
+-- min(operation_channel) as min_1, 
+-- max(operation_channel) as max_1, 
+-- 'operation_channel' as remark, 
+-- count(1) - count(operation_channel) as null_num
+-- from atec_1000w_oota_data
+-- union all
+-- select count(distinct(pay_scene)) as count_1, 
+-- min(pay_scene) as min_1, 
+-- max(pay_scene) as max_1, 
+-- 'pay_scene' as remark, 
+-- count(1) - count(pay_scene) as null_num
+-- from atec_1000w_oota_data
+-- union all
+-- select count(distinct(amt)) as count_1, 
+-- string(min(amt)) as min_1, 
+-- string(max(amt)) as max_1, 
+-- 'amt' as remark, 
+-- count(1) - count(amt) as null_num
+-- from atec_1000w_oota_data
+-- union all
+-- select count(distinct(card_cert_no)) as count_1, 
+-- min(card_cert_no) as min_1, 
+-- max(card_cert_no) as max_1, 
+-- 'card_cert_no' as remark, 
+-- count(1) - count(card_cert_no) as null_num
+-- from atec_1000w_oota_data
+-- union all
+-- select count(distinct(opposing_id)) as count_1, 
+-- min(opposing_id) as min_1, 
+-- max(opposing_id) as max_1, 
+-- 'opposing_id' as remark, 
+-- count(1) - count(opposing_id) as null_num
+-- from atec_1000w_oota_data
+-- union all
+-- select count(distinct(income_card_no)) as count_1, 
+-- min(income_card_no) as min_1, 
+-- max(income_card_no) as max_1, 
+-- 'income_card_no' as remark, 
+-- count(1) - count(income_card_no) as null_num
+-- from atec_1000w_oota_data
+-- union all
+-- select count(distinct(income_card_cert_no)) as count_1, 
+-- min(income_card_cert_no) as min_1, 
+-- max(income_card_cert_no) as max_1, 
+-- 'income_card_cert_no' as remark, 
+-- count(1) - count(income_card_cert_no) as null_num
+-- from atec_1000w_oota_data
+-- union all
+-- select count(distinct(income_card_mobile)) as count_1, 
+-- min(income_card_mobile) as min_1, 
+-- max(income_card_mobile) as max_1, 
+-- 'income_card_mobile' as remark, 
+-- count(1) - count(income_card_mobile) as null_num
+-- from atec_1000w_oota_data
+-- union all
+-- select count(distinct(income_card_bank_code)) as count_1, 
+-- min(income_card_bank_code) as min_1, 
+-- max(income_card_bank_code) as max_1, 
+-- 'income_card_bank_code' as remark, 
+-- count(1) - count(income_card_bank_code) as null_num
+-- from atec_1000w_oota_data
+-- union all
+-- select count(distinct(province)) as count_1, 
+-- min(province) as min_1, 
+-- max(province) as max_1, 
+-- 'province' as remark, 
+-- count(1) - count(province) as null_num
+-- from atec_1000w_oota_data
+-- union all
+-- select count(distinct(city)) as count_1, 
+-- min(city) as min_1, 
+-- max(city) as max_1, 
+-- 'city' as remark, 
+-- count(1) - count(city) as null_num
+-- from atec_1000w_oota_data
+-- union all
+-- select count(distinct(is_peer_pay)) as count_1, 
+-- min(is_peer_pay) as min_1, 
+-- max(is_peer_pay) as max_1, 
+-- 'is_peer_pay' as remark, 
+-- count(1) - count(is_peer_pay) as null_num
+-- from atec_1000w_oota_data
+-- union all
+-- select count(distinct(version)) as count_1, 
+-- min(version) as min_1, 
+-- max(version) as max_1, 
+-- 'version' as remark, 
+-- count(1) - count(version) as null_num
+-- from atec_1000w_oota_data
+-- union all
+-- select count(distinct(dt)) as count_1, 
+-- min(dt) as min_1, 
+-- max(dt) as max_1, 
+-- 'dt' as remark, 
+-- count(1) - count(dt) as null_num
+-- from atec_1000w_oota_data;
